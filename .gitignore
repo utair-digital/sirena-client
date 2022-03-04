@@ -1,0 +1,8 @@
+venv/
+env/
+.idea
+__pycache__
+.DS*
+.keys
+_sandbox
+sirena.pem⏎
