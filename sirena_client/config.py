@@ -25,6 +25,10 @@ class SirenaClientConfig:
             self.private_key = base64.b64decode(self.private_key).decode('utf-8')
         except TypeError:
             self.private_key = None
+        if self.port is not None:
+            self.port = int(self.port)
+        if self.client_id is not None:
+            self.client_id = int(self.client_id)
         assert all((
             self.host, self.port,
             self.client_id,
