@@ -35,6 +35,7 @@ class SirenaClient:
                 host=self.config.host,
                 port=self.config.port,
                 client_id=self.config.client_id,
+                private_key=self.config.private_key,
                 private_key_path=self.config.private_key_path,
                 pool=self._connection_pool if self.config.use_connection_pool else None,
                 redis_url=self.config.redis_url,
@@ -56,6 +57,7 @@ class SirenaClient:
                 host=self.config.host,
                 port=self.config.port,
                 client_id=self.config.client_id,
+                private_key=self.config.private_key,
                 private_key_path=self.config.private_key_path,
                 redis_url=self.config.redis_url,
                 logger_name=self.config.logger_name

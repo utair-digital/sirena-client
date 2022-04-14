@@ -23,9 +23,6 @@ from ..messaging.response import (
 from ..types import PublicMethods, AsymEncryptionHandShake
 
 
-PROJECT_ROOT = os.path.realpath(os.path.abspath(os.curdir))
-
-
 class BaseClient(ABC):
     compress_response: bool = True
     compress_request: bool = True
@@ -42,7 +39,7 @@ class BaseClient(ABC):
             client_id: int,
             redis_url: str = None,
             private_key: Optional[str] = None,
-            private_key_path: str = os.path.join(PROJECT_ROOT, '.keys', 'private.pem'),
+            private_key_path: Optional[str] = None,
             logger_name: str = 'sirena_client',
             **kwargs
     ):
