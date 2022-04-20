@@ -3,14 +3,22 @@ import setuptools
 with open("README.md", "r", encoding='utf-8') as readme:
     long_description = readme.read()
 
-install_requires = ['xmltodict~=0.12.0', 'pycryptodome==3.10.1', 'pydantic', ]
+install_requires = [
+    'xmltodict~=0.12.0', 'pycryptodome==3.10.1', 'pydantic',
+    'aioredis==1.3.1', 'asyncio~=3.4.3', 'aiofile~=3.7.2'
+    'redis==4.0.2'
+]
 
+# TODO [async] & [sync] eggs
 async_require = ['aioredis==1.3.1', 'asyncio~=3.4.3', 'aiofile~=3.7.2']
 sync_require = ['redis==4.0.2', ]
 
+install_requires.extend(async_require)
+install_requires.extend(sync_require)
+
 setuptools.setup(
     name="sirena_client",
-    version="0.0.10",
+    version="0.0.11",
     python_requires='>=3.8',
     author="Utair Digital",
     description="Sirena Travel Client",
@@ -20,10 +28,6 @@ setuptools.setup(
     install_requires=install_requires,
     keywords=['sirena', 'client'],
     license="Apache License Version 2.0",
-    extras_require={
-        'async': async_require,
-        'sync': sync_require,
-    },
     packages=setuptools.find_packages(exclude=('examples', 'tests', )),
     classifiers=[
         "Development Status :: 4 - Beta",
