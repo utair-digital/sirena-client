@@ -10,7 +10,7 @@ sync_require = ['redis==4.0.2', ]
 
 setuptools.setup(
     name="sirena_client",
-    version="0.0.9",
+    version="0.0.10",
     python_requires='>=3.8',
     author="Utair Digital",
     description="Sirena Travel Client",
