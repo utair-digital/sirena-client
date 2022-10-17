@@ -204,7 +204,9 @@ class ResponseModelABC(BaseModel, ABC):
 
     def _check_expired_keys_error(self, error: Dict):
         root_level = error.get(self._root_level_key)
-        error = root_level.get('error') or root_level.get('describe')
+        error = root_level.get('error')
+        if not error and self.method_name != 'describe':
+            error = root_level.get('describe')
         if not error:
             return
         if error and all([
