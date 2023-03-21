@@ -1,5 +1,6 @@
 from pydantic import Field
 from sirena_client.base.models.base_client_request import RequestModelABC
+from ..exceptions import SirenaClaimError
 
 
 class GetETicket(RequestModelABC):
@@ -11,11 +12,8 @@ class GetETicket(RequestModelABC):
 
     _method_name: str = 'eticket_display'
 
-    # TODO: Нужна ли валидация на билеты ютейра?
-    """
     if ticket_number[:3] != "298":
-        raise exceptions.SirenaClaimError()
-    """
+        raise SirenaClaimError()
 
     def build(self) -> dict:
         request = {

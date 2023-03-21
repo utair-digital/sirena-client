@@ -97,9 +97,13 @@ class GetOrder(RequestModelABC):
             'show_originator': self.show_originator,
             'regroup': self.regroup,
             'seat_map_v2': self.seat_map_v2,
-            'lang': self.lang,
-            'services': self.svcs
+            'lang': self.lang
         }
+
+        if self.svcs:
+            answer_params['svcs'] = {
+                'svc': [dict(x) for x in self.svcs]
+            }
 
         request = {
             'regnum': {

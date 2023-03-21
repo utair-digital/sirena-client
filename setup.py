@@ -18,7 +18,7 @@ install_requires.extend(sync_require)
 
 setuptools.setup(
     name="sirena_client",
-    version="0.0.12",
+    version="0.0.13",
     python_requires='>=3.8',
     author="Utair Digital",
     description="Sirena Travel Client",

@@ -80,11 +80,13 @@ class SirenaWrongDocumentIssuedCountry(BaseSirenaError):
     message = 'This document cannot have been issued in this country'
 
 
-class SirenaUnableToDeleteSegment(BaseSirenaError):
-    """Не удалось удалить сегмент"""
+class SirenaDepartureDateInPast(BaseSirenaError):
+    """В пункте отправления наступил новый день по местному времени
+    Ошибка: {@code: '33235', text: 'Departure date in past'}
+    """
     http_code = 400
     error_code = 40005
-    message = "Unable to delete segment"
+    message = "The departure date is in past"
 
 
 class SirenaUnableToDerminateAirlineCode(BaseSirenaError):
@@ -140,6 +142,13 @@ class SirenaPNRWasChanded(BaseSirenaError):
     http_code = 400
     error_code = 40012
     message = "PNR was changed since last request"
+
+
+class SirenaUnableToDeleteSegment(BaseSirenaError):
+    """Не удалось удалить сегмент"""
+    http_code = 400
+    error_code = 40013
+    message = "Unable to delete segment"
 
 # ~~~~~~~~~~~~~~~~~~ 403 ~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -298,6 +307,13 @@ class SirenaSegmentNotFoundError(BaseSirenaError):
     http_code = 404
     error_code = 40412
     message = "No such segment in PNR"
+
+
+class SirenaPassengersTitleNotFoundError(BaseSirenaError):
+    """ Обращение к пассажиру не было найдено (Mr/Mrs/Ms/Miss) """
+    http_code = 404
+    error_code = 40411
+    message = "Passenger's title not found in pnr"
 
 # ~~~~~~~~~~~~~~~~~~ 408 ~~~~~~~~~~~~~~~~~~~~~~~~~
 

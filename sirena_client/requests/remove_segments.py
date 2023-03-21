@@ -3,7 +3,7 @@ from pydantic import Field
 from sirena_client.base.models.base_client_request import RequestModelABC
 
 
-class RemoveSegments(RequestModelABC):
+class RemoveSegmentsRequest(RequestModelABC):
 
     rloc: str = Field(description="Номер бронирования")
     last_name: str = Field(description="Фамилия пассажира")
@@ -13,7 +13,7 @@ class RemoveSegments(RequestModelABC):
 
     lang: str = 'en'
 
-    _method_name: str = 'remove_segments'
+    _method_name: str = 'modify_pnr'
 
     def build(self) -> dict:
         request = {

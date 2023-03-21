@@ -1,6 +1,7 @@
 from pydantic import Field
-from typing import Optional, Union
+from typing import Optional, Union, List
 from sirena_client.base.models.base_client_request import RequestModelABC
+from datetime import date
 
 
 class PaymentCost(RequestModelABC):
@@ -73,4 +74,61 @@ class BLPricingPassenger(RequestModelABC):
             "sex": self.sex,
             "pspexpire": self.pspexpire
         }
+        return request
+
+
+class ExchangePassenger(RequestModelABC):
+    last_name: str = Field(description="Фамилия")
+    first_name: str = Field(description="Имя")
+    second_name: str = Field(description="Отчество")
+
+    @property
+    def name(self) -> str:
+        if self.second_name:
+            return f'{self.first_name} {self.second_name}'
+
+        return self.first_name
+
+    def build(self) -> dict:
+        request = {
+            'lastname': self.last_name,
+            'firstname': self.name
+        }
+        return request
+
+
+class ExchangeSegment(RequestModelABC):
+    airline: str = Field(description="Код маркетингового перевозчика")
+    flight_number: str = Field(description="Маркетинговый номер рейса")
+    flight_date: date = Field(description="Дата вылета")
+    departure_code: str = Field(description="Код города или порта отправления")
+    arrival_code: str = Field(description="Код города или порта прибытия")
+    subclass: Optional[str] = Field(description="Класс бронирования")
+
+    @property
+    def formatted_flight_date(self) -> str:
+        return self.flight_date.strftime('%d.%m.%Y')
+
+    def build(self) -> dict:
+        request = {
+            'carrier': self.airline,
+            'flight': self.flight_number,
+            'date': self.formatted_flight_date,
+            'departure': self.departure_code,
+            'arrival': self.arrival_code,
+            'subclass': self.subclass,
+        }
+        return request
+
+
+class ExchangeSegments(RequestModelABC):
+    original: List[ExchangeSegment]
+    desired: List[ExchangeSegment]
+
+    def build(self) -> dict:
+        request = {
+            'original': self.original,
+            'desired': self.desired
+        }
+
         return request
