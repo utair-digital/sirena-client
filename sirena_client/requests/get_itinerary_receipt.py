@@ -1,6 +1,6 @@
 from pydantic import Field
 from typing import Optional
-from sirena_client.base.models.base_client_request import RequestModelABC
+from ..base.models.base_client_request import RequestModelABC
 
 
 class GetItineraryReceipt(RequestModelABC):

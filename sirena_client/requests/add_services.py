@@ -1,6 +1,6 @@
 from pydantic import Field
 from typing import List, Optional
-from sirena_client.base.models.base_client_request import RequestModelABC
+from ..base.models.base_client_request import RequestModelABC
 
 
 class ServiceForAdd(RequestModelABC):
@@ -57,7 +57,8 @@ class AddServicesRequest(RequestModelABC):
     """
 
     rloc: str = Field(description="Номер PNR")
-    version: int = Field(description="Версия PNR")
+    last_name: str = Field(description="Фамилия пассажира")
+    version: str = Field(description="Версия PNR")
     services: List[ServiceForAdd] = Field(description="Объекты услуг для добавления")
 
     # TODO надо проверить возвращается ли simple ответ, если переданны show_svc и прочии с ними
@@ -98,6 +99,7 @@ class AddServicesRequest(RequestModelABC):
                 '#text': self.rloc,
                 '@version': self.version
             },
+            "surname": self.last_name,
             "svc": [item.build() for item in self.services],
             "answer_params": {
                 "simple": self.simple,
