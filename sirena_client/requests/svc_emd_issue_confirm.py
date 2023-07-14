@@ -1,5 +1,5 @@
 from pydantic import Field
-from sirena_client.base.models.base_client_request import RequestModelABC
+from ..base.models.base_client_request import RequestModelABC
 from .common import PaymentCost, PaymentDocument
 
 

@@ -1,6 +1,7 @@
-from pydantic import Field
+from datetime import date
 from typing import List, Optional
-from sirena_client.base.models.base_client_request import RequestModelABC
+from pydantic import Field
+from ..base.models.base_client_request import RequestModelABC
 
 
 class SsrUnitForAdd(RequestModelABC):
@@ -10,7 +11,7 @@ class SsrUnitForAdd(RequestModelABC):
     flight: str = Field(description="Рейс")
     departure: str = Field(description="Пункт отправления")
     arrival: str = Field(description="Пункт прибытия")
-    departure_date: str = Field(description="Дата вылета")
+    departure_date: date = Field(description="Дата вылета")
 
     _nested: bool = True
 
@@ -22,7 +23,7 @@ class SsrUnitForAdd(RequestModelABC):
             'flight': self.flight,
             'departure': self.departure,
             'arrival': self.arrival,
-            'date': self.departure_date,
+            'date': self.departure_date.strftime("%d.%m.%y"),
         }
 
 

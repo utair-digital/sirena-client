@@ -1,7 +1,18 @@
 from pydantic import Field
-from typing import Optional, List, Dict
-from sirena_client.base.models.base_client_request import RequestModelABC
+from typing import Optional
+from ..base.models.base_client_request import RequestModelABC
 
+class GetOrderSvc(RequestModelABC):
+    rfisc: str = Field(description="Рфиск услуги")
+    service_type: str = Field(description="Тип услуги")
+    seat_characteristics: Optional[str] = Field(default="", description="Значимые характеристики для услуг места")
+
+    def build(self) -> dict:
+        return {
+            "@rfisc": self.rfisc,
+            "@service_type": self.service_type,
+            "@seat_characteristics": self.seat_characteristics
+        }
 
 class GetOrder(RequestModelABC):
 
@@ -64,8 +75,9 @@ class GetOrder(RequestModelABC):
     regroup: bool = Field(
         default=False, description="Uknown"
     )
-    seat_map_v2: bool = Field(default=False, description="Unknown"),
-    svcs: Optional[List[Dict]] = Field(default=False, description="Сервисы")
+    seat_map_v2: bool = Field(default=False, description="Unknown")
+
+    svcs: list[GetOrderSvc] = Field(default=[], description="Сервисы")
 
     lang: str = 'en'
 
@@ -98,7 +110,7 @@ class GetOrder(RequestModelABC):
             'regroup': self.regroup,
             'seat_map_v2': self.seat_map_v2,
             'lang': self.lang,
-            'services': self.svcs
+            'svcs': {"svc": [item.build() for item in self.svcs]}
         }
 
         request = {
