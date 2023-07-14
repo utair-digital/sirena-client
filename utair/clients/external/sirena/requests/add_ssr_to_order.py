@@ -1,4 +1,3 @@
-from datetime import date
 from typing import List, Optional
 from pydantic import Field
 from ..base.models.base_client_request import RequestModelABC
@@ -7,11 +6,11 @@ from ..base.models.base_client_request import RequestModelABC
 class SsrUnitForAdd(RequestModelABC):
     first_name: str = Field(description="Имя")
     last_name: str = Field(description="Фамилия")
-    company: Optional[str] = Field(description="Компания")
-    flight: Optional[str] = Field(description="Рейс")
-    departure: Optional[str] = Field(description="Пункт отправления")
-    arrival: Optional[str] = Field(description="Пункт прибытия")
-    departure_date: Optional[str] = Field(description="Дата вылета")
+    company: Optional[str] = Field(description="Компания", default=None)
+    flight: Optional[str] = Field(description="Рейс", default=None)
+    departure: Optional[str] = Field(description="Пункт отправления", default=None)
+    arrival: Optional[str] = Field(description="Пункт прибытия", default=None)
+    departure_date: Optional[str] = Field(description="Дата вылета", default=None)
 
     _nested: bool = True
 
@@ -31,8 +30,8 @@ class SSRForAdd(RequestModelABC):
     """
     Объект услуги для добавления в методе svc_add
     """
-    segment_id: Optional[str] = Field(description="Идентификатор сегмента")
-    passenger_id: Optional[str] = Field(description="Идентификатор пассажира")
+    segment_id: Optional[str] = Field(description="Идентификатор сегмента", default=None)
+    passenger_id: Optional[str] = Field(description="Идентификатор пассажира", default=None)
     text: Optional[str] = Field(
         None,
         description="текст SSR — text, обязателен при указании SSR, требующих ввод свободного текста."

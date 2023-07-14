@@ -48,7 +48,9 @@ class ReleaseSeatsRequest(RequestModelABC):
 
     rloc: str = Field(description="Номер бронирования")
     surname: str = Field(description="Фамилия пассажира")
-    segments: Optional[List[SegmentsForReleaseSeats]] = Field(description="Список сегментов для сдачи")
+    segments: Optional[List[SegmentsForReleaseSeats]] = Field(
+        description="Список сегментов для сдачи", default_factory=list
+    )
     passenger: List[PassengersForReleaseSeats] = Field(description="Список пассажиров для сдачи мест")
 
     lang: str = 'en'

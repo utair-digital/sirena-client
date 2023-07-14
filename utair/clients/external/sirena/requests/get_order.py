@@ -21,8 +21,8 @@ class GetOrder(RequestModelABC):
     rloc: str = Field(description="Номер PNR")
     last_name: str = Field(description="Фамилия любого из пассажиров")
 
-    version: Optional[int] = Field(description="Версия брони")
-    tick_ser: Optional[str] = Field(description="Серия бланков для оценки перевозки")
+    version: Optional[int] = Field(description="Версия брони", default=0)
+    tick_ser: Optional[str] = Field(description="Серия бланков для оценки перевозки", default=None)
     no_pricing: bool = Field(default=False, description="Не возвращать данные по оценке")
     prev_pricing_params: bool = Field(
         default=False, description="Тарифицировать, используя форму оплаты и тип билета предыдущей оценки"

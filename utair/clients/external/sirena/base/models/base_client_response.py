@@ -58,7 +58,7 @@ EXCEPTION_MAP = {
 
 class ResponseModelABC(BaseModel, ABC):
     response: ResponseABC
-    error: Optional[BaseError]
+    error: Optional[BaseError] = None
 
     _parsed_response: Optional[Dict] = PrivateAttr(default=None)
     _root_level_key: str = 'answer'
