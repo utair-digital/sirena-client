@@ -2,8 +2,8 @@ import logging
 import os
 import asyncio
 
-from usdk.clients.external.sirena.requests import GetOrder, PlainRequest
-from usdk.clients.external.sirena import SirenaClient, SirenaClientConfig
+from utair.clients.external.sirena.requests import GetOrder, PlainRequest
+from utair.clients.external.sirena import SirenaClient, SirenaClientConfig
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -14,6 +14,7 @@ SIRENA_APC = {
     'port': 1,
     'client_id': 1,
     'private_key_path': os.path.join(PROJECT_ROOT, '../.keys', 'sirena.pem'),
+    'redis_url': 'redis://127.0.0.1:32773',
 }
 
 
