@@ -1,5 +1,5 @@
 from datetime import date
-from typing import Optional, Union
+from typing import Optional, Union, List
 from pydantic import Field
 from ..base.models.base_client_request import RequestModelABC
 
