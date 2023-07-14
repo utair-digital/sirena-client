@@ -1,6 +1,6 @@
-from pydantic import Field
 from typing import List
-from sirena_client.base.models.base_client_request import RequestModelABC
+from pydantic import Field
+from ..base.models.base_client_request import RequestModelABC
 
 
 class PassengerForAddFFInfo(RequestModelABC):
@@ -8,7 +8,7 @@ class PassengerForAddFFInfo(RequestModelABC):
     Объект пассажира для добавления карты лояльности
     """
     passenger_id: str = Field(..., description="Идентификатор пассажира")
-    loyalty_card: str = Field(..., description="Номер карточки, идентифицируещей клиента")
+    loyalty_card: str = Field(..., description="Номер карточки, идентифицирующей клиента")
     segments: List[str] = Field(default_factory=list, description="Идентификаторы сегментов")
 
     def build(self) -> dict:

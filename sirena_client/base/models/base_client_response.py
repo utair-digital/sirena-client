@@ -72,7 +72,7 @@ class ResponseModelABC(BaseModel, ABC):
     @property
     def method_name(self) -> str:
         if not self.response.method_name:
-            raise Exception()
+            raise Exception("Method name must be provided")
         return self.response.method_name
 
     @classmethod

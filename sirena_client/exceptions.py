@@ -1,4 +1,4 @@
-from sirena_client.base.exception import BaseError
+from .base.exception import BaseError
 
 
 class SirenaResponseError(BaseError):

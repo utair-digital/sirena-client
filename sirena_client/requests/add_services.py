@@ -1,6 +1,6 @@
-from pydantic import Field
 from typing import List, Optional
-from sirena_client.base.models.base_client_request import RequestModelABC
+from pydantic import Field
+from ..base.models.base_client_request import RequestModelABC
 
 
 class ServiceForAdd(RequestModelABC):
@@ -60,7 +60,7 @@ class AddServicesRequest(RequestModelABC):
     version: int = Field(description="Версия PNR")
     services: List[ServiceForAdd] = Field(description="Объекты услуг для добавления")
 
-    # TODO надо проверить возвращается ли simple ответ, если переданны show_svc и прочии с ними
+    # TODO надо проверить возвращается ли simple ответ, если переданы show_svc и прочие с ними
     simple: bool = Field(
         False,
         description="Если требуется подавать подряд несколько запросов на добавление доп. "
