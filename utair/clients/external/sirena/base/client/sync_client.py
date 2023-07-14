@@ -1,6 +1,7 @@
 import os
 import socket
 import json
+from opentelemetry import trace
 
 from typing import Optional
 from ...exceptions import (
@@ -52,14 +53,19 @@ class SyncClient(BaseClient):
         Точка входа для клиента
         Запрос к сирене
         """
-        self.connect(self._ignore_connection_calls)
-        self._hand_shake()
-        result = self._query(request)
-        self.logger.info(f"Sirena request: {request.method_name}", extra=dict(
-            sirena_request=json.dumps(request.build(), indent=4),
-            sirena_response=json.dumps(request.build(), indent=4)
-        ))
-        self.disconnect(self._ignore_connection_calls)
+        with trace.get_tracer("sirena-client").start_span(f"sirena request: {request.method_name}") as span:
+            span.set_attribute("sirena.client", self.client_id)
+            span.set_attribute("sirena.host", self.host)
+
+            self.connect(self._ignore_connection_calls)
+            self._hand_shake()
+            result = self._query(request)
+            self.logger.info(f"Sirena request: {request.method_name}", extra=dict(
+                sirena_request=json.dumps(request.build(), indent=4),
+                sirena_response=json.dumps(request.build(), indent=4)
+            ))
+            self.disconnect(self._ignore_connection_calls)
+
         if not silent:
             result.raise_for_error()
         return result

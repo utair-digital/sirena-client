@@ -4,6 +4,7 @@ import json
 
 from typing import Optional
 
+from opentelemetry import trace
 from .base_client import BaseClient
 from ..connection import AsyncConnection, AsyncConnectionPool
 from ..messaging import RequestABC, ResponseABC, Header
@@ -62,15 +63,20 @@ class AsyncClient(BaseClient):
         Точка входа для клиента
         Запрос к сирене
         """
-        await self.connect(self._ignore_connection_calls)
-        async with self._connection.get() as connection:
-            await self._hand_shake(connection)
-            result = await self._query(request, connection)
-            self.logger.info(f"Sirena request: {request.method_name}", extra=dict(
-                sirena_request=json.dumps(request.build(), indent=4),
-                sirena_response=json.dumps(request.build(), indent=4)
-            ))
-        await self.disconnect(self._ignore_connection_calls)
+        with trace.get_tracer("sirena-client").start_span(f"sirena request: {request.method_name}") as span:
+            span.set_attribute("method", request.method_name)
+            span.set_attribute("sirena.client", self.client_id)
+            span.set_attribute("sirena.host", self.host)
+
+            await self.connect(self._ignore_connection_calls)
+            async with self._connection.get() as connection:
+                await self._hand_shake(connection)
+                result = await self._query(request, connection)
+                self.logger.info(f"Sirena request: {request.method_name}", extra=dict(
+                    sirena_request=json.dumps(request.build(), indent=4),
+                    sirena_response=json.dumps(request.build(), indent=4)
+                ))
+            await self.disconnect(self._ignore_connection_calls)
         if not silent:
             result.raise_for_error()
         return result

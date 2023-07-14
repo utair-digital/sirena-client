@@ -13,6 +13,7 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.9"
 pycryptodome = {version="3.10.1"}
+opentelemetry-sdk = {version=">=1.17.0"}
 pydantic = {version="<2"}
 xmltodict = {version="0.12.0"}
 redis = {version="^4"}

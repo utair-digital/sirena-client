@@ -16,14 +16,14 @@ class Request(RequestABC):
     encryption_flag = None
 
     def make_message(self, client_id=None) -> bytes:
-        body, flag1, flag2 = self.prepare_message()
+        body, meta = self.prepare_message()
         header = Header(
             len(body),
             int(time()),
             self.msg_id,
             client_id,
-            flag1,
-            flag2,
+            meta,
+            0x00
         )
         msg = bytes(header) + body
         return msg
@@ -59,7 +59,7 @@ class RequestEncryptedSym(RequestABC):
         return message_bytes
 
     def make_message(self, client_id=None) -> bytes:
-        body, meta_flag, success = self.prepare_message()
+        body, meta = self.prepare_message()
         body = self.pad(body)
         encrypted_body = self.key.encrypt(body)
         header = Header(
@@ -67,8 +67,8 @@ class RequestEncryptedSym(RequestABC):
             int(time()),
             self.msg_id,
             client_id,
-            meta_flag,
-            success,
+            meta,
+            0x00,
             self.key_id
         )
         msg = bytes(header) + encrypted_body
@@ -116,15 +116,15 @@ class RequestEncryptedAsym(RequestABC):
         return body
 
     def make_message(self, client_id=None):
-        body, meta_flag, success = self.prepare_message()
+        body, meta = self.prepare_message()
         body = self.encrypt(body)
         header = Header(
             len(body),
             int(time()),
             self.msg_id,
             client_id,
-            meta_flag,
-            success,
+            meta,
+            0x00,
         )
         msg = bytes(header) + body
         return msg

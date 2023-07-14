@@ -1,4 +1,5 @@
 from typing import Optional, List
+from opentelemetry import trace
 
 from .async_client import AsyncClient
 from ..connection.async_connection import AsyncConnection
@@ -53,28 +54,34 @@ class AsyncBatchableClient(AsyncClient):
         attempts = 0
         hand_shake_retried = False
 
-        await self.connect(self._ignore_connection_calls)
+        with trace.get_tracer("sirena-client").start_span(
+                f"sirena request: batch request of len {len(request)}"
+        ) as span:
+            span.set_attribute("sirena.client", self.client_id)
+            span.set_attribute("sirena.host", self.host)
 
-        async with self._connection.get() as connection:
-            await self._hand_shake(connection)
-            batch: Batch = Batch.create([self.request_factory(r) for r in request])
+            await self.connect(self._ignore_connection_calls)
 
-            while attempts < self.max_request_retries:
-                try:
-                    attempts += 1
-                    batch: Batch = await self._make_batch_request(batch, connection)
-                    batch.received = 0
-                    if not batch.retries_needed:
-                        break
-                except SirenaEncryptionKeyError:
-                    # Один раз попробуем сделать хендшейк заново
-                    if hand_shake_retried:
-                        raise
-                    await self._hand_shake(connection, force=True)
-                    hand_shake_retried = True
-                    attempts -= 1
+            async with self._connection.get() as connection:
+                await self._hand_shake(connection)
+                batch: Batch = Batch.create([self.request_factory(r) for r in request])
 
-        await self.disconnect(self._ignore_connection_calls)
+                while attempts < self.max_request_retries:
+                    try:
+                        attempts += 1
+                        batch: Batch = await self._make_batch_request(batch, connection)
+                        batch.received = 0
+                        if not batch.retries_needed:
+                            break
+                    except SirenaEncryptionKeyError:
+                        # Один раз попробуем сделать хендшейк заново
+                        if hand_shake_retried:
+                            raise
+                        await self._hand_shake(connection, force=True)
+                        hand_shake_retried = True
+                        attempts -= 1
+
+            await self.disconnect(self._ignore_connection_calls)
         return batch.responses
 
     async def _make_batch_request(

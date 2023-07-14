@@ -30,7 +30,7 @@ class RequestABC(MessageABC):
     def make_message(self, client_id: int) -> bytes:
         raise NotImplemented
 
-    def prepare_message(self) -> (bytes, bin, bin):
+    def prepare_message(self) -> (bytes, bytes):
         body = self.body
         flag = 0x00
         if self.is_compressed_request:
@@ -41,7 +41,7 @@ class RequestABC(MessageABC):
 
         if self.encryption_flag is not None:
             flag = flag | self.encryption_flag
-        return body, flag, 0x00
+        return body, flag
 
 
 class ResponseABC(MessageABC):
