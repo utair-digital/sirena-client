@@ -1,16 +1,15 @@
 # SirenaTravel Client
 
 ## Requirements
-- xmltodict~=0.12.0
-- pycryptodome=3.10.1
+- xmltodict
+- pycryptodome
 - pydantic
-- ASYNC:
-  - aioredis==1.3.1 
-  - asyncio~=3.4.3 
-  - aiofile~=3.7.2
-- SYNC
-  - redis==4.0.2
-  
+- redis
+
+- extras[async]: 
+  - asyncio 
+  - aiofile
+
 ## Полезная информация
 [Примеры использования](examples)
 

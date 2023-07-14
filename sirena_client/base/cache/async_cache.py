@@ -1,6 +1,6 @@
 from typing import Optional
 from .base_cache import BaseCacheController
-from aioredis import Redis, create_connection
+from redis.asyncio import Redis, ConnectionPool
 
 _ASYNC_BACKEND: Optional[Redis] = None
 
@@ -35,9 +35,5 @@ class AsyncCacheController(BaseCacheController):
             return
         global _ASYNC_BACKEND
         if not _ASYNC_BACKEND:
-            _ASYNC_BACKEND = Redis(
-                pool_or_conn=await create_connection(
-                    address=self._redis_url
-                )
-            )
+            _ASYNC_BACKEND = Redis(connection_pool=ConnectionPool.from_url(self._redis_url))
         self._backend = _ASYNC_BACKEND

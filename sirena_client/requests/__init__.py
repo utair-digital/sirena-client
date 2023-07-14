@@ -12,7 +12,6 @@ from .get_eticket import GetETicket
 from .get_itinerary_receipt import GetItineraryReceipt
 from .get_modified_orders import GetModifiedOrders
 from .get_order import GetOrder
-from .remove_segments import RemoveSegments
 from .svc_emd_issue_confirm import SVCEmdIssueConfirm
 from .svc_emd_issue_query import SVCEmdIssueQuery
 from .un_archive_order import UnArchiveOrder
