@@ -1,5 +1,5 @@
-from typing import List, Optional
 from pydantic import Field
+from typing import List, Optional
 from ..base.models.base_client_request import RequestModelABC
 
 
@@ -57,10 +57,11 @@ class AddServicesRequest(RequestModelABC):
     """
 
     rloc: str = Field(description="Номер PNR")
-    version: int = Field(description="Версия PNR")
+    last_name: str = Field(description="Фамилия пассажира")
+    version: str = Field(description="Версия PNR")
     services: List[ServiceForAdd] = Field(description="Объекты услуг для добавления")
 
-    # TODO надо проверить возвращается ли simple ответ, если переданы show_svc и прочие с ними
+    # TODO надо проверить возвращается ли simple ответ, если переданны show_svc и прочии с ними
     simple: bool = Field(
         False,
         description="Если требуется подавать подряд несколько запросов на добавление доп. "
@@ -90,7 +91,7 @@ class AddServicesRequest(RequestModelABC):
 
     lang: str = 'en'
 
-    _method_name: str = 'add_ff_info'
+    _method_name: str = 'svc_add'
 
     def build(self) -> dict:
         request = {
@@ -98,6 +99,7 @@ class AddServicesRequest(RequestModelABC):
                 '#text': self.rloc,
                 '@version': self.version
             },
+            "surname": self.last_name,
             "svc": [item.build() for item in self.services],
             "answer_params": {
                 "simple": self.simple,
