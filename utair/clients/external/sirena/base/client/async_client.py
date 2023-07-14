@@ -89,7 +89,7 @@ class AsyncClient(BaseClient):
         if self.hand_shake_done and not force:
             return
 
-        if not force and (self.cache.is_available and await self.cache.exists):
+        if not force and self.cache.is_available:
             # Берём из кэша, если есть
             seed, _id = await self.cache.get()
             if all((seed, _id)):
@@ -102,14 +102,10 @@ class AsyncClient(BaseClient):
             await self.cache.purge()
 
         if not self._keys.private_key:
-            if self.private_key:
-                # Парсим из строки, если есть строка
-                self._keys.private_key = self._keys.parse_rsa_key(self.private_key)
-            else:
-                # Читаем из файла приватный ключ
-                async with aiofile.async_open(os.path.abspath(self.private_key_path)) as key_file:
-                    self._keys.private_key = self._keys.parse_rsa_key(await key_file.read())
-        self.logger.debug(f"Handshaking, is_force:{force}")
+            # TODO test from string
+            await self.load_private_key()
+
+        self.logger.debug(f"Handshaking, is_force: {force}")
         self._keys.reset_des_ecb()
         # Запрашиваем у сирены паб ключ
         key_info = await self._query(KeyInfoRequest(), connection)
@@ -217,3 +213,10 @@ class AsyncClient(BaseClient):
         )):
             return
         await self._connection.close()
+
+    async def load_private_key(self) -> bool:
+        if super().load_private_key():
+            return True
+        async with aiofile.async_open(os.path.abspath(self.private_key_path)) as key_file:
+            self._keys.private_key = self._keys.parse_rsa_key(await key_file.read())
+        return True

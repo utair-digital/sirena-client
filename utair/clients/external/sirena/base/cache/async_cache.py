@@ -7,11 +7,6 @@ _ASYNC_BACKEND: Optional[Redis] = None
 
 class AsyncCacheController(BaseCacheController):
 
-    @property
-    async def exists(self) -> bool:
-        one = await self.get()
-        return bool(one)
-
     async def get(self) -> (Optional[bytes], Optional[int]):
         key = await self._backend.get(self._cache_key_body)
         key_id = await self._backend.get(self._cache_key_id)

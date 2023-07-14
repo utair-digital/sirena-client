@@ -143,3 +143,9 @@ class BaseClient(ABC):
             public_key=self._keys.public_key,
             method_name=method_name
         )
+
+    def load_private_key(self) -> bool:
+        if not self.private_key:
+            return False
+        self._keys.private_key = self._keys.parse_rsa_key(self.private_key) # noqa
+        return True

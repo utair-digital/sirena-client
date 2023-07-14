@@ -5,11 +5,6 @@ from redis import Redis
 
 class SyncCacheController(BaseCacheController):
 
-    @property
-    def exists(self) -> bool:
-        one = self.get()
-        return bool(one)
-
     def purge(self):
         self._backend.delete(self._cache_key_body)
         self._backend.delete(self._cache_key_id)
