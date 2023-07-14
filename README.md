@@ -19,7 +19,7 @@
 ## Конфигурация SirenaClient
 
 ```python
-from usdk.clients.external.sirena import SirenaClientConfig
+from utair.clients.external.sirena import SirenaClientConfig
 
 config = SirenaClientConfig(
     host="127.0.0.1",
@@ -39,9 +39,9 @@ config = SirenaClientConfig(
 ## Как пользоваться Асинхронной версией
 
 ```python
-from usdk.clients.external.sirena.requests import GetOrder
-from usdk.clients.external.sirena import SirenaClient, SirenaClientConfig
-from usdk.clients.external.sirena.exceptions import SirenaPnrAndSurnameDontMatch
+from utair.clients.external.sirena.requests import GetOrder
+from utair.clients.external.sirena import SirenaClient, SirenaClientConfig
+from utair.clients.external.sirena.exceptions import SirenaPnrAndSurnameDontMatch
 
 config = SirenaClientConfig(
   host="127.0.0.1",
@@ -71,9 +71,9 @@ async with client as session:
 ## Как пользоваться Синхронной версией
 
 ```python
-from usdk.clients.external.sirena import SirenaClient, SirenaClientConfig
-from usdk.clients.external.sirena.requests import GetOrder
-from usdk.clients.external.sirena.exceptions import SirenaPnrAndSurnameDontMatch
+from utair.clients.external.sirena import SirenaClient, SirenaClientConfig
+from utair.clients.external.sirena.requests import GetOrder
+from utair.clients.external.sirena.exceptions import SirenaPnrAndSurnameDontMatch
 
 config = SirenaClientConfig(
   host="127.0.0.1",
