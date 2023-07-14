@@ -7,11 +7,11 @@ from ..base.models.base_client_request import RequestModelABC
 class SsrUnitForAdd(RequestModelABC):
     first_name: str = Field(description="Имя")
     last_name: str = Field(description="Фамилия")
-    company: str = Field(description="Компания")
-    flight: str = Field(description="Рейс")
-    departure: str = Field(description="Пункт отправления")
-    arrival: str = Field(description="Пункт прибытия")
-    departure_date: date = Field(description="Дата вылета")
+    company: Optional[str] = Field(description="Компания")
+    flight: Optional[str] = Field(description="Рейс")
+    departure: Optional[str] = Field(description="Пункт отправления")
+    arrival: Optional[str] = Field(description="Пункт прибытия")
+    departure_date: Optional[str] = Field(description="Дата вылета")
 
     _nested: bool = True
 
@@ -31,9 +31,9 @@ class SSRForAdd(RequestModelABC):
     """
     Объект услуги для добавления в методе svc_add
     """
-    segment_id: int = Field(description="Идентификатор сегмента")
-    passenger_id: int = Field(description="Идентификатор пассажира")
-    text: str = Field(
+    segment_id: Optional[str] = Field(description="Идентификатор сегмента")
+    passenger_id: Optional[str] = Field(description="Идентификатор пассажира")
+    text: Optional[str] = Field(
         None,
         description="текст SSR — text, обязателен при указании SSR, требующих ввод свободного текста."
     )

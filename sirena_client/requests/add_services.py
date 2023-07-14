@@ -74,19 +74,19 @@ class AddServicesRequest(RequestModelABC):
                     "для получения и проверки их статусов."
     )
     show_svc: bool = Field(
-        default=False, description="Добавлять в ответ информацию о доступных услугах"
+        default=True, description="Добавлять в ответ информацию о доступных услугах"
     )
     show_insurance_info: bool = Field(
-        default=False, description="Добавлять в ответ информацию о страховках в PNR"
+        default=True, description="Добавлять в ответ информацию о страховках в PNR"
     )
     add_ssr: bool = Field(
-        default=False, description="Добавлять в ответ информацию об SSR в PNR"
+        default=True, description="Добавлять в ответ информацию об SSR в PNR"
     )
     tick_info: bool = Field(
-        default=False, description="Добавлять в ответ информацию о статусе билетов"
+        default=True, description="Добавлять в ответ информацию о статусе билетов"
     )
     add_remarks: bool = Field(
-        default=False, description="Добавлять в ответ информацию о ремарках в PNR"
+        default=True, description="Добавлять в ответ информацию о ремарках в PNR"
     )
 
     lang: str = 'en'

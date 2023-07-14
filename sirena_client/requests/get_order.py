@@ -2,6 +2,7 @@ from pydantic import Field
 from typing import Optional
 from ..base.models.base_client_request import RequestModelABC
 
+
 class GetOrderSvc(RequestModelABC):
     rfisc: str = Field(description="Рфиск услуги")
     service_type: str = Field(description="Тип услуги")
@@ -13,6 +14,7 @@ class GetOrderSvc(RequestModelABC):
             "@service_type": self.service_type,
             "@seat_characteristics": self.seat_characteristics
         }
+
 
 class GetOrder(RequestModelABC):
 
