@@ -3,9 +3,12 @@ name = "sirena-client"
 version = "0.1.0"
 description = "SirenaGDS Python Client"
 authors = ["Utair"]
+packages = [
+    { include = "usdk/clients/external/sirena"},
+]
+
 license = "Apache License Version 2.0, January 2004"
 readme = "README.md"
-packages = [{include = "sirena_client"}]
 
 [tool.poetry.dependencies]
 python = "^3.9"

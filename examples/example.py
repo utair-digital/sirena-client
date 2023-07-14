@@ -1,9 +1,9 @@
 import logging
 import os
 import asyncio
-from sirena_client.config import SirenaClientConfig
-from sirena_client.sirena_client import SirenaClient
-from sirena_client.requests import GetOrder, PlainRequest
+
+from usdk.clients.external.sirena.requests import GetOrder, PlainRequest
+from usdk.clients.external.sirena import SirenaClient, SirenaClientConfig
 
 logging.basicConfig(level=logging.DEBUG)
 
