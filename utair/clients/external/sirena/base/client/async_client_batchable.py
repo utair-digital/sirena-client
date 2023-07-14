@@ -92,13 +92,13 @@ class AsyncBatchableClient(AsyncClient):
             message: bytes = b.sirena_request.make_message(self.client_id)
             await connection.write(message)
 
-        # Длинна динамична и может менятся в зависимости от неуспешных ответов
+        # Длинна динамична и может меняться в зависимости от неуспешных ответов
         batch_len = len(batch)
         while batch.received < batch_len:
             # Читаем ответы по очереди, соотносим к айдишнику запроса
             # Получаем заголовок
             header: Header = Header.parse(await self._read_header(connection))
-            # Соотвествующий на сообщение запрос
+            # Соответствующий на сообщение запрос
             _request: RequestABC = batch.get_request(header.msg_id)
             # Готовим ответ, складываем в него информацию полученную из заголовка
             _response: ResponseABC = self.response_factory(header, _request.method_name)

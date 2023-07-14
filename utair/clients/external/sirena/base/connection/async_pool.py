@@ -219,7 +219,7 @@ class AsyncConnectionPool:
         self._used.remove(c)
         self._pool.append(c)
         # Не отключаем соединение, просто возвращаем его обратно в пул
-        # TODO нужно как-нибудь проверять переодически соединения
+        # TODO нужно как-нибудь проверять периодически соединения
         #   health check/heartbeat
         # if c.connected:
         #     await c.disconnect()

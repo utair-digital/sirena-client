@@ -61,7 +61,7 @@ class AddServicesRequest(RequestModelABC):
     version: str = Field(description="Версия PNR")
     services: List[ServiceForAdd] = Field(description="Объекты услуг для добавления")
 
-    # TODO надо проверить возвращается ли simple ответ, если переданны show_svc и прочии с ними
+    # TODO надо проверить возвращается ли simple ответ, если переданы show_svc и прочие с ними
     simple: bool = Field(
         False,
         description="Если требуется подавать подряд несколько запросов на добавление доп. "

@@ -1,8 +1,8 @@
 import os
 import socket
+import json
 
 from typing import Optional
-
 from ...exceptions import (
     SirenaEncryptionKeyError,
     SirenaMaxRetriesExceededError,
@@ -54,9 +54,11 @@ class SyncClient(BaseClient):
         """
         self.connect(self._ignore_connection_calls)
         self._hand_shake()
-        self.logger.debug(f"Request: {request.method_name}, {request.build()}")
         result = self._query(request)
-        self.logger.debug(f"Response: {request.method_name}, {result.data}")
+        self.logger.info(f"Sirena request: {request.method_name}", extra=dict(
+            sirena_request=json.dumps(request.build(), indent=4),
+            sirena_response=json.dumps(request.build(), indent=4)
+        ))
         self.disconnect(self._ignore_connection_calls)
         if not silent:
             result.raise_for_error()

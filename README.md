@@ -13,7 +13,7 @@
 ## Полезная информация
 [Примеры использования](examples)
 
-[Реализованные запросы](usdk/clients/external/sirena/requests)
+[Реализованные запросы](utair/clients/external/sirena/requests)
 
 
 ## Конфигурация SirenaClient
