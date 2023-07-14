@@ -1,9 +1,7 @@
 from typing import Optional, Union
 from datetime import date
-
 from pydantic import Field
-
-from sirena_client.base.models.base_client_request import RequestModelABC
+from ..base.models.base_client_request import RequestModelABC
 
 
 class GetSchedule(RequestModelABC):

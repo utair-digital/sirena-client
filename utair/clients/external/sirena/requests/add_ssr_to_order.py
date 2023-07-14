@@ -47,10 +47,10 @@ class SSRForAdd(RequestModelABC):
 
     def build(self) -> dict:
         return {
-            '@seg_id': 'segment_id',
-            '@pass_id': 'passenger_id',
-            '@text': 'text',
-            '@type': 'type',
+            '@seg_id': 'segment_id',        # FIXME
+            '@pass_id': 'passenger_id',     # FIXME
+            '@text': 'text',                # FIXME
+            '@type': 'type',                # FIXME
             'unit': [u.build() for u in self.units]
         }
 

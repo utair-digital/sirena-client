@@ -13,8 +13,8 @@ class PassengerForAddFFInfo(RequestModelABC):
 
     def build(self) -> dict:
         return {
-            '@id': 'passenger_id',
-            'freq_flier_id': 'loyalty_card',
+            '@id': 'passenger_id',              # FIXME
+            'freq_flier_id': 'loyalty_card',    # FIXME
             'segment': [
                 {'@id': s} for s in self.segments
             ]
