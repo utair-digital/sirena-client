@@ -3,7 +3,6 @@ import os
 import asyncio
 
 from utair.clients.external.sirena.requests import GetOrder, PlainRequest
-from utair.clients.external.sirena import SirenaClient, SirenaClientConfig
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -17,9 +16,6 @@ SIRENA_APC = {
     'redis_url': 'redis://127.0.0.1:32773',
 }
 
-
-config = SirenaClientConfig(**SIRENA_APC)
-client = SirenaClient(config)
 
 get_order = GetOrder(
     rloc='PNR123',
@@ -40,18 +36,30 @@ plain_request = PlainRequest(
 
 
 async def run_a():
+    from utair.clients.external.sirena import SirenaClient, SirenaClientConfig
+    config = SirenaClientConfig(**SIRENA_APC)
+    client = SirenaClient(config)
+
     async with client as c:
         order_1 = await c.query(get_order, silent=True)
         order_2 = await c.query(plain_request, silent=True)
+        batch = await c.batch_query([get_order, get_order, get_order])
         print(order_1, order_2)
+        print(batch)
 
 
 def run_s():
-    a = SirenaClient(config)
+    from utair.clients.external.sirena import SirenaClientConfig
+    from utair.clients.external.sirena.sync import SirenaClient
+    config = SirenaClientConfig(**SIRENA_APC)
+    client = SirenaClient(config)
+
     with client as c:
         order_1 = c.query(get_order, silent=True)
         order_2 = c.query(plain_request, silent=True)
+        batch = c.batch_query([get_order, get_order, get_order])
         print(order_1, order_2)
+        print(batch)
 
 
 async def run_all():

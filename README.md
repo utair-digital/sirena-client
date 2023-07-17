@@ -71,7 +71,8 @@ async with client as session:
 ## Как пользоваться Синхронной версией
 
 ```python
-from utair.clients.external.sirena import SirenaClient, SirenaClientConfig
+from utair.clients.external.sirena import SirenaClientConfig
+from utair.clients.external.sirena.sync import SirenaClient     # NB: Синхронный клиент лежит отдельно
 from utair.clients.external.sirena.requests import GetOrder
 from utair.clients.external.sirena.exceptions import SirenaPnrAndSurnameDontMatch
 
