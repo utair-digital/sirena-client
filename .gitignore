@@ -3,6 +3,8 @@ env/
 .idea
 __pycache__
 .DS*
+*.sublime-*
 .keys
 _sandbox
 sirena.pem⏎
+poetry.lock
