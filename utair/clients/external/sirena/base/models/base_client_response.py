@@ -123,7 +123,8 @@ class ResponseModelABC(BaseModel, ABC):
         :return: скорректированный xml
         """
         splitted = _base_xml.split("\n")
-        splitted[_line_no - 1] = splitted[_line_no - 1][:_offset] + splitted[_line_no - 1][_offset + 1:]
+        line = splitted[_line_no - 1]
+        splitted[_line_no - 1] = line[:_offset] + line[_offset + 1:]
         return "\n".join(splitted)
 
     def _parse_response(self) -> Optional[Dict]:
@@ -146,7 +147,10 @@ class ResponseModelABC(BaseModel, ABC):
                     )
                 )['sirena']
             except expat.ExpatError as e:
-                payload = self._remove_symbol(payload, e.lineno, e.offset)
+                if self.response.method_name == AsymEncryptionHandShake.ASYM_HAND_SHAKE.value:
+                    payload = self._remove_symbol(payload, e.lineno, e.offset - 1)
+                else:
+                    payload = self._remove_symbol(payload, e.lineno, e.offset)
                 result_attempt += 1
         return result
 
