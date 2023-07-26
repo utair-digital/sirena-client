@@ -127,8 +127,8 @@ class ExchangeSegments(RequestModelABC):
 
     def build(self) -> dict:
         request = {
-            'original': self.original,
-            'desired': self.desired
+            'original': [s.build() for s in self.original],
+            'desired': [s.build() for s in self.desired],
         }
 
         return request
