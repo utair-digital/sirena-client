@@ -16,19 +16,21 @@ SIRENA_APC = {
     'redis_url': 'redis://127.0.0.1:32773',
 }
 
+RLOC = 'PNR123'
+LAST_NAME = 'Lastname'
 
 get_order = GetOrder(
-    rloc='PNR123',
-    last_name='Lastname'
+    rloc=RLOC,
+    last_name=LAST_NAME
 )
 
 plain_request = PlainRequest(
     body={
         'regnum': {
-            '#text': "PNR123",
+            '#text': RLOC,
             '@version': "ignore"
         },
-        'surname': 'Lastname',
+        'surname': LAST_NAME,
         'request_params': {},
         'answer_params': {}
     }, method='order'
@@ -36,7 +38,8 @@ plain_request = PlainRequest(
 
 
 async def run_a():
-    from utair.clients.external.sirena import SirenaClient, SirenaClientConfig
+    from utair.clients.external.sirena import SirenaClientConfig
+    from utair.clients.external.sirena.async_client import SirenaClient
     config = SirenaClientConfig(**SIRENA_APC)
     client = SirenaClient(config)
 
