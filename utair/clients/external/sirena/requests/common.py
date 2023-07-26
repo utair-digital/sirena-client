@@ -103,7 +103,7 @@ class ExchangeSegment(RequestModelABC):
     flight_date: date = Field(description="Дата вылета")
     departure_code: str = Field(description="Код города или порта отправления")
     arrival_code: str = Field(description="Код города или порта прибытия")
-    subclass: Optional[str] = Field(description="Класс бронирования")
+    subclass: Optional[str] = Field(description="Класс бронирования", default=None)
 
     @property
     def formatted_flight_date(self) -> str:
