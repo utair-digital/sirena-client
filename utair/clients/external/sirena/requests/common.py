@@ -234,9 +234,11 @@ class AnswerParams(RequestModelABC):
                                      default=None)
     show_brand_info: Optional[bool] = Field(description="Добавлять в ответ информацию о составе брендов", default=None)
     show_cat18: Optional[bool] = Field(description="Добавлять в ответ примечания из кат. 18 УПТ", default=None)
+    lang: str = 'en'
 
     def build(self) -> dict:
         return {
+            "lang": self.lang,
             "show_available": self.show_available,
             "show_io_matching": self.show_io_matching,
             "show_flighttime": self.show_flighttime,
