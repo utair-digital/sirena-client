@@ -80,7 +80,7 @@ class BLPricingPassenger(RequestModelABC):
 class ExchangePassenger(RequestModelABC):
     last_name: str = Field(description="Фамилия")
     first_name: str = Field(description="Имя")
-    second_name: str = Field(description="Отчество")
+    second_name: Optional[str] = Field(description="Отчество", default=None)
 
     @property
     def name(self) -> str:
