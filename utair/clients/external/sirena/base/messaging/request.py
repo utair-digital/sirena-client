@@ -7,7 +7,7 @@ from Crypto.Hash import SHA1
 from Crypto.Signature import pkcs1_15
 
 
-from .base import RequestABC, Header
+from utair.clients.external.sirena.base.messaging.base import RequestABC, Header
 
 
 class Request(RequestABC):

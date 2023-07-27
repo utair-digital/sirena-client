@@ -1,8 +1,8 @@
 from abc import abstractmethod
 from typing import Optional
 from zlib import compress, decompress
-from .message import MessageABC
-from .header import Header
+from utair.clients.external.sirena.base.messaging.message import MessageABC
+from utair.clients.external.sirena.base.messaging.header import Header
 
 
 class RequestABC(MessageABC):
@@ -28,7 +28,7 @@ class RequestABC(MessageABC):
 
     @abstractmethod
     def make_message(self, client_id: int) -> bytes:
-        raise NotImplemented
+        raise NotImplementedError()
 
     def prepare_message(self) -> (bytes, bytes):
         body = self.body

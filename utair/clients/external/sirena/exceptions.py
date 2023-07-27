@@ -1,4 +1,4 @@
-from .base.exception import BaseError
+from utair.clients.external.sirena.base.exception import BaseError
 
 
 class SirenaResponseError(BaseError):

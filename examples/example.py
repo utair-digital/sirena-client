@@ -39,7 +39,7 @@ plain_request = PlainRequest(
 
 async def run_a():
     from utair.clients.external.sirena import SirenaClientConfig
-    from utair.clients.external.sirena.async_client import SirenaClient
+    from utair.clients.external.sirena.client import SirenaClient
     config = SirenaClientConfig(**SIRENA_APC)
     client = SirenaClient(config)
 
@@ -53,7 +53,7 @@ async def run_a():
 
 def run_s():
     from utair.clients.external.sirena import SirenaClientConfig
-    from utair.clients.external.sirena.sync import SirenaClient
+    from utair.clients.external.sirena.sync_client import SirenaClient
     config = SirenaClientConfig(**SIRENA_APC)
     client = SirenaClient(config)
 

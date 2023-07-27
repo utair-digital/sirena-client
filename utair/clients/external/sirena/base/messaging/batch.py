@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import List, Dict
-from .request import RequestABC
-from ..models.base_client_response import ResponseModelABC
+from utair.clients.external.sirena.base.messaging.request import RequestABC
+from utair.clients.external.sirena.base.models.base_client_response import ResponseModelABC
 
 
 @dataclass

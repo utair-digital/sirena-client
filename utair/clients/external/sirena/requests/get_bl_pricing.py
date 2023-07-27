@@ -1,7 +1,7 @@
 from typing import Union
 from pydantic import Field
-from ..base.models.base_client_request import RequestModelABC
-from .common import PaymentDocument, BLPricingPassenger
+from utair.clients.external.sirena.base.models.base_client_request import RequestModelABC
+from utair.clients.external.sirena.requests.common import PaymentDocument, BLPricingPassenger
 
 
 class GetBLPricing(RequestModelABC):

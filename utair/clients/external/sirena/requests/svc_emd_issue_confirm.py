@@ -1,6 +1,6 @@
 from pydantic import Field
-from ..base.models.base_client_request import RequestModelABC
-from .common import PaymentCost, PaymentDocument
+from utair.clients.external.sirena.base.models.base_client_request import RequestModelABC
+from utair.clients.external.sirena.requests.common import PaymentCost, PaymentDocument
 
 
 class SVCEmdIssueConfirm(RequestModelABC):

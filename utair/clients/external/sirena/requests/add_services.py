@@ -1,6 +1,6 @@
 from pydantic import Field
 from typing import List, Optional
-from ..base.models.base_client_request import RequestModelABC
+from utair.clients.external.sirena.base.models.base_client_request import RequestModelABC
 
 
 class ServiceForAdd(RequestModelABC):

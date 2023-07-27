@@ -2,10 +2,10 @@ from abc import ABC
 from typing import Optional, Dict
 from pydantic import BaseModel, PrivateAttr
 from xmltodict import parse, expat
-from ..messaging.response import ResponseABC
-from ..exception import BaseError
-from ... import exceptions
-from ..types import AsymEncryptionHandShake, PublicMethods
+from utair.clients.external.sirena.base.messaging.response import ResponseABC
+from utair.clients.external.sirena.base.exception import BaseError
+from utair.clients.external.sirena import exceptions
+from utair.clients.external.sirena.base.types import AsymEncryptionHandShake, PublicMethods
 
 EXCEPTION_MAP = {
     '-42': exceptions.SirenaEncryptionKeyError,  # Кастомный код и ошибка
