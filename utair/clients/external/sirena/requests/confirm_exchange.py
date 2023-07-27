@@ -1,7 +1,7 @@
 from pydantic import Field
 from typing import List, Union
 from ..base.models.base_client_request import RequestModelABC
-from common import PaymentDocument, PaymentCost
+from utair.clients.external.sirena.requests.common import PaymentDocument, PaymentCost
 
 
 class ConfirmExchangeRequest(RequestModelABC):
