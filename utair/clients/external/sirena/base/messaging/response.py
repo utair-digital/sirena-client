@@ -1,8 +1,8 @@
 from struct import unpack
 from Crypto.Cipher import DES, PKCS1_v1_5
 from Crypto.PublicKey import RSA
-from .base import ResponseABC, Header
-from ..types import AsymEncryptionHandShake
+from utair.clients.external.sirena.base.messaging.base import ResponseABC, Header
+from utair.clients.external.sirena.base.types import AsymEncryptionHandShake
 
 
 class Response(ResponseABC):
@@ -93,4 +93,4 @@ class ResponseEncryptedAsym(ResponseABC):
                 </{AsymEncryptionHandShake.ASYM_HAND_SHAKE.value}>
               </answer>
             </sirena>
-            """
+            """  # noqa

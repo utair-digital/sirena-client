@@ -1,6 +1,6 @@
 from typing import Optional
-from .base_cache import BaseCacheController
 from redis.asyncio import Redis, ConnectionPool
+from utair.clients.external.sirena.base.cache.base_cache import BaseCacheController
 
 _ASYNC_BACKEND: Optional[Redis] = None
 

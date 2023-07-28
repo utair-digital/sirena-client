@@ -1,7 +1,7 @@
 from typing import Optional
-from .base.client.async_client_batchable import AsyncBatchableClient
-from .base.connection.async_pool import AsyncConnectionPool
-from .config import SirenaClientConfig
+from utair.clients.external.sirena.base.client.async_client_batchable import AsyncBatchableClient
+from utair.clients.external.sirena.base.connection.async_pool import AsyncConnectionPool
+from utair.clients.external.sirena.config import SirenaClientConfig
 
 _CONNECTION_POOL: Optional[AsyncConnectionPool] = None
 

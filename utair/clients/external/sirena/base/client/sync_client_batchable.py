@@ -1,11 +1,11 @@
 from typing import List
 
-from .sync_client import SyncClient
-from ..messaging import Header, RequestABC, ResponseABC
-from ..messaging.batch import Batch
-from ..models.base_client_request import RequestModelABC
-from ..models.base_client_response import ResponseModelABC
-from ...exceptions import SirenaEncryptionKeyError
+from utair.clients.external.sirena.base.client.sync_client import SyncClient
+from utair.clients.external.sirena.base.messaging import Header, RequestABC, ResponseABC
+from utair.clients.external.sirena.base.messaging.batch import Batch
+from utair.clients.external.sirena.base.models.base_client_request import RequestModelABC
+from utair.clients.external.sirena.base.models.base_client_response import ResponseModelABC
+from utair.clients.external.sirena.exceptions import SirenaEncryptionKeyError
 
 
 class SyncBatchableClient(SyncClient):

@@ -1,7 +1,7 @@
 from time import time
 from struct import unpack, pack
 from dataclasses import dataclass
-from .message import MessageABC
+from utair.clients.external.sirena.base.messaging.message import MessageABC
 
 
 @dataclass

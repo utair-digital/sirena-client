@@ -1,5 +1,5 @@
-from ..config import SirenaClientConfig
-from ..base.client.sync_client_batchable import SyncBatchableClient
+from utair.clients.external.sirena.config import SirenaClientConfig
+from utair.clients.external.sirena.base.client.sync_client_batchable import SyncBatchableClient
 
 
 class SirenaClient(SyncBatchableClient):

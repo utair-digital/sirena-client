@@ -1,7 +1,7 @@
 from pydantic import Field
 from typing import List
-from ..base.models.base_client_request import RequestModelABC
-from common import PaymentCost
+from utair.clients.external.sirena.base.models.base_client_request import RequestModelABC
+from utair.clients.external.sirena.requests.common import PaymentCost
 
 
 class ConfirmRefundServicesRequest(RequestModelABC):

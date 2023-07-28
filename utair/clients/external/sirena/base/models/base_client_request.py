@@ -2,7 +2,7 @@ from typing import Optional
 from abc import ABC, abstractmethod
 from pydantic import BaseModel, validator, Field
 from xmltodict import unparse
-from ..types import AsymEncryptionHandShake, PublicMethods
+from utair.clients.external.sirena.base.types import AsymEncryptionHandShake, PublicMethods
 
 
 class RequestModelABC(BaseModel, ABC):
@@ -44,7 +44,7 @@ class RequestModelABC(BaseModel, ABC):
 
     @abstractmethod
     def build(self) -> dict:
-        raise NotImplemented()
+        raise NotImplementedError()
 
     @classmethod
     def _remove_empty_values(cls, payload: dict) -> dict:

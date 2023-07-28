@@ -4,7 +4,7 @@ from Crypto import Random
 from dataclasses import dataclass, field
 from Crypto.Cipher import DES
 
-from ...exceptions import SirenaEncryptionKeyError
+from utair.clients.external.sirena.exceptions import SirenaEncryptionKeyError
 
 
 @dataclass
