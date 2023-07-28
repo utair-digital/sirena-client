@@ -1,6 +1,6 @@
 import collections
 from typing import Union, Set
-from .async_connection import AsyncConnection
+from utair.clients.external.sirena.base.connection.async_connection import AsyncConnection
 
 import asyncio
 import sys

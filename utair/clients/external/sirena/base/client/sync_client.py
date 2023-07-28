@@ -4,16 +4,18 @@ import json
 from opentelemetry import trace
 
 from typing import Optional
-from ...exceptions import (
+from utair.clients.external.sirena.exceptions import (
     SirenaEncryptionKeyError,
     SirenaMaxRetriesExceededError,
     SirenaEmptyResponse
 )
-from .base_client import BaseClient
-from ..cache.sync_cache import SyncCacheController
-from ..messaging import Header, RequestABC, ResponseABC
-from ..models.base_client_request import RequestModelABC, KeyInfoRequest, AsymEncryptionHandShakeRequest
-from ..models.base_client_response import ResponseModelABC
+from utair.clients.external.sirena.base.client.base_client import BaseClient
+from utair.clients.external.sirena.base.cache.sync_cache import SyncCacheController
+from utair.clients.external.sirena.base.messaging import Header, RequestABC, ResponseABC
+from utair.clients.external.sirena.base.models.base_client_request import (
+    RequestModelABC, KeyInfoRequest, AsymEncryptionHandShakeRequest
+)
+from utair.clients.external.sirena.base.models.base_client_response import ResponseModelABC
 
 
 class SyncClient(BaseClient):
@@ -110,7 +112,7 @@ class SyncClient(BaseClient):
         # Кэшируем ключ
         if self.cache.is_available:
             self.cache.set(self._keys.sym_key_seed, self._keys.sym_key_id)
-        self.logger.debug(f"Handshake done.")
+        self.logger.debug("Handshake done.")
         self.hand_shake_done = True
 
     def _query(self, request: RequestModelABC) -> ResponseModelABC:

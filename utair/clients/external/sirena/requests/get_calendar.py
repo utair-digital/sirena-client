@@ -3,8 +3,8 @@ from typing import Optional, List
 
 from pydantic import Field, root_validator
 
-from .common import Passenger
-from ..base.models.base_client_request import RequestModelABC
+from utair.clients.external.sirena.requests.common import Passenger
+from utair.clients.external.sirena.base.models.base_client_request import RequestModelABC
 
 
 class GetCalendarSegment(RequestModelABC):

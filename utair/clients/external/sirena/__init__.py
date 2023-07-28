@@ -1,7 +1,5 @@
-from .config import SirenaClientConfig
-from .sirena_client import SirenaClient
+from utair.clients.external.sirena.config import SirenaClientConfig
 
 __all__ = [
-    "SirenaClient",
     "SirenaClientConfig"
 ]

@@ -4,22 +4,22 @@ from abc import ABC
 
 from socket import socket
 
-from ..messaging import (
+from utair.clients.external.sirena.base.messaging import (
     Header, Request, RequestEncryptedSym, RequestEncryptedAsym, RequestABC
 )
 
-from ..models.base_client_request import RequestModelABC
-from ..connection.async_pool import AsyncConnectionPool
-from ..cache.base_cache import BaseCacheController
-from .keys_container import KeysContainer
+from utair.clients.external.sirena.base.models.base_client_request import RequestModelABC
+from utair.clients.external.sirena.base.connection.async_pool import AsyncConnectionPool
+from utair.clients.external.sirena.base.cache.base_cache import BaseCacheController
+from utair.clients.external.sirena.base.client.keys_container import KeysContainer
 
-from ..messaging.response import (
+from utair.clients.external.sirena.base.messaging.response import (
     ResponseABC,
     Response,
     ResponseEncryptedAsym,
     ResponseEncryptedSym
 )
-from ..types import PublicMethods, AsymEncryptionHandShake
+from utair.clients.external.sirena.base.types import PublicMethods, AsymEncryptionHandShake
 
 
 class BaseClient(ABC):

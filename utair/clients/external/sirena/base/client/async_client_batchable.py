@@ -1,14 +1,14 @@
 from typing import Optional, List
 from opentelemetry import trace
 
-from .async_client import AsyncClient
-from ..connection.async_connection import AsyncConnection
-from ..connection.async_pool import AsyncConnectionPool
-from ..messaging import Header, RequestABC, ResponseABC
-from ..messaging.batch import Batch
-from ..models.base_client_request import RequestModelABC
-from ..models.base_client_response import ResponseModelABC
-from ...exceptions import SirenaEncryptionKeyError
+from utair.clients.external.sirena.base.client.async_client import AsyncClient
+from utair.clients.external.sirena.base.connection.async_connection import AsyncConnection
+from utair.clients.external.sirena.base.connection.async_pool import AsyncConnectionPool
+from utair.clients.external.sirena.base.messaging import Header, RequestABC, ResponseABC
+from utair.clients.external.sirena.base.messaging.batch import Batch
+from utair.clients.external.sirena.base.models.base_client_request import RequestModelABC
+from utair.clients.external.sirena.base.models.base_client_response import ResponseModelABC
+from utair.clients.external.sirena.exceptions import SirenaEncryptionKeyError
 
 
 class AsyncBatchableClient(AsyncClient):

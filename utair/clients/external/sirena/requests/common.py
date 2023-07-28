@@ -1,7 +1,7 @@
 from datetime import date
 from typing import Optional, Union, List
 from pydantic import Field
-from ..base.models.base_client_request import RequestModelABC
+from utair.clients.external.sirena.base.models.base_client_request import RequestModelABC
 
 
 class PaymentCost(RequestModelABC):
@@ -80,7 +80,7 @@ class BLPricingPassenger(RequestModelABC):
 class ExchangePassenger(RequestModelABC):
     last_name: str = Field(description="Фамилия")
     first_name: str = Field(description="Имя")
-    second_name: str = Field(description="Отчество")
+    second_name: Optional[str] = Field(description="Отчество", default=None)
 
     @property
     def name(self) -> str:
@@ -103,7 +103,7 @@ class ExchangeSegment(RequestModelABC):
     flight_date: date = Field(description="Дата вылета")
     departure_code: str = Field(description="Код города или порта отправления")
     arrival_code: str = Field(description="Код города или порта прибытия")
-    subclass: Optional[str] = Field(description="Класс бронирования")
+    subclass: Optional[str] = Field(description="Класс бронирования", default=None)
 
     @property
     def formatted_flight_date(self) -> str:
@@ -127,8 +127,8 @@ class ExchangeSegments(RequestModelABC):
 
     def build(self) -> dict:
         request = {
-            'original': self.original,
-            'desired': self.desired
+            'original': [s.build() for s in self.original],
+            'desired': [s.build() for s in self.desired],
         }
 
         return request
@@ -164,20 +164,24 @@ class RequestParams(RequestModelABC):
     """
     Параметры запроса, используется в GetPricingRoute, GetPricingMonoBrand
     """
-    min_results: Optional[int] = Field(description="Минимальное желаемое количество разных оценок")
-    max_results: Optional[int] = Field(description="Максимальное количество вариантов, возвращаемых в ответе")
-    timeout: Optional[int] = Field(description="Таймаут выполнения запроса (секунды)")
-    mix_scls: Optional[bool] = Field(description="Комбинировать подклассы на сегментах по маршруту перевозки")
-    mix_ac: Optional[bool] = Field(description="Комбинировать рейсы разных перевозчиков по маршруту перевозки")
-    comb_rules: Optional[str] = Field(description="Правила комбинирования рейсов авиакомпаний")
-    fingering_order: Optional[str] = Field(description="Порядок перебора вариантов при оценке")
+    min_results: Optional[int] = Field(description="Минимальное желаемое количество разных оценок", default=None)
+    max_results: Optional[int] = Field(description="Максимальное количество вариантов, возвращаемых в ответе",
+                                       default=None)
+    timeout: Optional[int] = Field(description="Таймаут выполнения запроса (секунды)", default=None)
+    mix_scls: Optional[bool] = Field(description="Комбинировать подклассы на сегментах по маршруту перевозки",
+                                     default=None)
+    mix_ac: Optional[bool] = Field(description="Комбинировать рейсы разных перевозчиков по маршруту перевозки",
+                                   default=None)
+    comb_rules: Optional[str] = Field(description="Правила комбинирования рейсов авиакомпаний", default=None)
+    fingering_order: Optional[str] = Field(description="Порядок перебора вариантов при оценке", default=None)
     price_child_aaa: Optional[bool] = Field(description="Провести тарификацию ребёнка по взрослому тарифу, если не "
-                                                        "найдено скидок")
+                                                        "найдено скидок", default=None)
     asynchronous_fares: Optional[bool] = Field(description="Не применять тарифы с одновременным бронированием и "
-                                                           "оформлением")
-    show_tmb: Optional[bool] = Field(description="Готовить и показывать справку по норме провоза багажа")
-    formpay: Optional[str] = Field(description="Форма оплаты для оценки")
-    pt_baggage: Optional[bool] = Field(description="Показывать только 'багажные' тарифы")
+                                                           "оформлением", default=None)
+    show_tmb: Optional[bool] = Field(description="Готовить и показывать справку по норме провоза багажа",
+                                     default=None)
+    formpay: Optional[str] = Field(description="Форма оплаты для оценки", default=None)
+    pt_baggage: Optional[bool] = Field(description="Показывать только 'багажные' тарифы", default=None)
 
     def build(self) -> dict:
         return {
@@ -193,7 +197,7 @@ class RequestParams(RequestModelABC):
             "show_tmb": self.show_tmb,
             "formpay": self.formpay,
             "pt_baggage": self.pt_baggage,
-            "some_p_a_ram": "ghj"
+            # et_if_possible, n_prices
         }
 
 
@@ -201,33 +205,40 @@ class AnswerParams(RequestModelABC):
     """
     Параметры ответа, используется в GetPricingRoute, GetPricingMonoBrand
     """
-    show_available: Optional[bool] = Field(description="Добавлять в ответ информацию о наличии мест на подклассе")
+    show_available: Optional[bool] = Field(description="Добавлять в ответ информацию о наличии мест на подклассе",
+                                           default=None)
     show_io_matching: Optional[bool] = Field(description="Добавлять в ответ информацию о соответствии сегментов "
-                                                         "запроса сегментам ответа")
+                                                         "запроса сегментам ответа", default=None)
     show_flighttime: Optional[bool] = Field(description="Добавлять в ответ информацию о времени перелета и времени "
-                                                        "следования по сегментам")
+                                                        "следования по сегментам", default=None)
     show_varianttotal: Optional[bool] = Field(description="Добавлять в ответ информацию об общей стоимости перевозки "
-                                                          "по варианту")
-    show_baseclass: Optional[bool] = Field(description="Добавлять к каждому подклассу код его базового класса")
-    show_reg_latin: Optional[bool] = Field(description="Указывать необходимость оформления билета на латинице")
-    show_upt_rec: Optional[bool] = Field(description="Выдать детализацию УПТ")
-    show_fareexpdate: Optional[bool] = Field(description="Указывать дату истечения срока действия тарифа")
+                                                          "по варианту", default=None)
+    show_baseclass: Optional[bool] = Field(description="Добавлять к каждому подклассу код его базового класса",
+                                           default=None)
+    show_reg_latin: Optional[bool] = Field(description="Указывать необходимость оформления билета на латинице",
+                                           default=None)
+    show_upt_rec: Optional[bool] = Field(description="Выдать детализацию УПТ", default=None)
+    show_fareexpdate: Optional[bool] = Field(description="Указывать дату истечения срока действия тарифа", default=None)
     show_n_blanks: Optional[bool] = Field(description="Возвращать количество билетов, необходимых для оформления "
-                                                      "перевозки")
-    regroup: Optional[bool] = Field(description="Перегруппировка ответа")
+                                                      "перевозки", default=None)
+    regroup: Optional[bool] = Field(description="Перегруппировка ответа", default=None)
     split_companies: Optional[bool] = Field(description="При перегруппировке ответа объединять в один вариант только "
                                                         "рейсы одной авиакомпании. Автоматически установит параметр "
-                                                        "запроса mix_ac='false'")
+                                                        "запроса mix_ac='false'", default=None)
     reference_style_codes: Optional[bool] = Field(description="Возвращать коды авиакомпаний по правилам, принятым в "
                                                               "справочных запросах (может вернуть латинский код а/к "
-                                                              "вместо русского)")
-    mark_cityport: Optional[bool] = Field(description="Добавлять в ответ признаки city или airport для пунктов")
-    show_tml: Optional[bool] = Field(description="Добавлять в ответ информацию о ТЛ на оформление перевозки")
-    show_brand_info: Optional[bool] = Field(description="Добавлять в ответ информацию о составе брендов")
-    show_cat18: Optional[bool] = Field(description="Добавлять в ответ примечания из кат. 18 УПТ")
+                                                              "вместо русского)", default=None)
+    mark_cityport: Optional[bool] = Field(description="Добавлять в ответ признаки city или airport для пунктов",
+                                          default=None)
+    show_tml: Optional[bool] = Field(description="Добавлять в ответ информацию о ТЛ на оформление перевозки",
+                                     default=None)
+    show_brand_info: Optional[bool] = Field(description="Добавлять в ответ информацию о составе брендов", default=None)
+    show_cat18: Optional[bool] = Field(description="Добавлять в ответ примечания из кат. 18 УПТ", default=None)
+    lang: str = 'en'
 
     def build(self) -> dict:
         return {
+            "lang": self.lang,
             "show_available": self.show_available,
             "show_io_matching": self.show_io_matching,
             "show_flighttime": self.show_flighttime,
@@ -244,6 +255,5 @@ class AnswerParams(RequestModelABC):
             "show_tml": self.show_tml,
             "show_brand_info": self.show_brand_info,
             "show_cat18": self.show_cat18,
-            "some_p_a_ram": "ghj"
+            # "return_date", "show_et", "show_regroup_io_matching", "show_trcantpr", "joint_type"
         }
-

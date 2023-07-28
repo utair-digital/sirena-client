@@ -2,10 +2,10 @@ from abc import ABC
 from typing import Optional, Dict
 from pydantic import BaseModel, PrivateAttr
 from xmltodict import parse, expat
-from ..messaging.response import ResponseABC
-from ..exception import BaseError
-from ... import exceptions
-from ..types import AsymEncryptionHandShake, PublicMethods
+from utair.clients.external.sirena.base.messaging.response import ResponseABC
+from utair.clients.external.sirena.base.exception import BaseError
+from utair.clients.external.sirena import exceptions
+from utair.clients.external.sirena.base.types import AsymEncryptionHandShake, PublicMethods
 
 EXCEPTION_MAP = {
     '-42': exceptions.SirenaEncryptionKeyError,  # Кастомный код и ошибка
@@ -123,7 +123,8 @@ class ResponseModelABC(BaseModel, ABC):
         :return: скорректированный xml
         """
         splitted = _base_xml.split("\n")
-        splitted[_line_no - 1] = splitted[_line_no - 1][:_offset] + splitted[_line_no - 1][_offset + 1:]
+        line = splitted[_line_no - 1]
+        splitted[_line_no - 1] = line[:_offset] + line[_offset + 1:]
         return "\n".join(splitted)
 
     def _parse_response(self) -> Optional[Dict]:
@@ -146,7 +147,10 @@ class ResponseModelABC(BaseModel, ABC):
                     )
                 )['sirena']
             except expat.ExpatError as e:
-                payload = self._remove_symbol(payload, e.lineno, e.offset)
+                if self.response.method_name == AsymEncryptionHandShake.ASYM_HAND_SHAKE.value:
+                    payload = self._remove_symbol(payload, e.lineno, e.offset - 1)
+                else:
+                    payload = self._remove_symbol(payload, e.lineno, e.offset)
                 result_attempt += 1
         return result
 
@@ -197,8 +201,9 @@ class ResponseModelABC(BaseModel, ABC):
             return
         error_code = error_level.get("error", {}).get("@code")
         error_text = error_level.get("error", {}).get("text")
-        if error_code in EXCEPTION_MAP.keys():
-            self.error = EXCEPTION_MAP.get(error_code)
+        if error_code in EXCEPTION_MAP:
+            error_class = EXCEPTION_MAP[error_code]
+            self.error = error_class()
             return
         self.error = exceptions.BaseSirenaError(
             message=f'Unhandled error by sirena response with code {error_code}: {error_text}'

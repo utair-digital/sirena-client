@@ -5,13 +5,15 @@ import json
 from typing import Optional
 
 from opentelemetry import trace
-from .base_client import BaseClient
-from ..connection import AsyncConnection, AsyncConnectionPool
-from ..messaging import RequestABC, ResponseABC, Header
-from ..models.base_client_request import RequestModelABC, KeyInfoRequest, AsymEncryptionHandShakeRequest
-from ..models.base_client_response import ResponseModelABC
-from ..cache.async_cache import AsyncCacheController
-from ...exceptions import (
+from utair.clients.external.sirena.base.client.base_client import BaseClient
+from utair.clients.external.sirena.base.connection import AsyncConnection, AsyncConnectionPool
+from utair.clients.external.sirena.base.messaging import RequestABC, ResponseABC, Header
+from utair.clients.external.sirena.base.models.base_client_request import (
+    RequestModelABC, KeyInfoRequest, AsymEncryptionHandShakeRequest
+)
+from utair.clients.external.sirena.base.models.base_client_response import ResponseModelABC
+from utair.clients.external.sirena.base.cache.async_cache import AsyncCacheController
+from utair.clients.external.sirena.exceptions import (
     SirenaEncryptionKeyError,
     SirenaMaxRetriesExceededError,
     SirenaEmptyResponse
@@ -120,7 +122,7 @@ class AsyncClient(BaseClient):
         # Кэшируем ключ
         if self.cache.is_available:
             await self.cache.set(self._keys.sym_key_seed, self._keys.sym_key_id)
-        self.logger.debug(f"Handshake done.")
+        self.logger.debug("Handshake done.")
         self.hand_shake_done = True
 
     async def _query(self, request: RequestModelABC, connection: AsyncConnection) -> ResponseModelABC:

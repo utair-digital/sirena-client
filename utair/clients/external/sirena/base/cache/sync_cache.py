@@ -1,5 +1,5 @@
 from typing import Optional
-from .base_cache import BaseCacheController
+from utair.clients.external.sirena.base.cache.base_cache import BaseCacheController
 from redis import Redis
 
 
