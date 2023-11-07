@@ -1,6 +1,5 @@
 import os
 import socket
-import json
 from opentelemetry import trace
 
 from typing import Optional
@@ -62,10 +61,7 @@ class SyncClient(BaseClient):
             self.connect(self._ignore_connection_calls)
             self._hand_shake()
             result = self._query(request)
-            self.logger.info(f"Sirena request: {request.method_name}", extra=dict(
-                sirena_request=json.dumps(request.build(), indent=4),
-                sirena_response=json.dumps(request.build(), indent=4)
-            ))
+            self._request_log(request=request, response=result)
             self.disconnect(self._ignore_connection_calls)
 
         if not silent:
