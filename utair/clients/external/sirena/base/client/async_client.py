@@ -1,6 +1,5 @@
 import aiofile
 import os
-import json
 
 from typing import Optional
 
@@ -74,10 +73,7 @@ class AsyncClient(BaseClient):
             async with self._connection.get() as connection:
                 await self._hand_shake(connection)
                 result = await self._query(request, connection)
-                self.logger.info(f"Sirena request: {request.method_name}", extra=dict(
-                    sirena_request=json.dumps(request.build(), indent=4),
-                    sirena_response=json.dumps(request.build(), indent=4)
-                ))
+                self._request_log(request=request, response=result)
             await self.disconnect(self._ignore_connection_calls)
         if not silent:
             result.raise_for_error()

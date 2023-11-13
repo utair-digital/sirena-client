@@ -69,6 +69,9 @@ class SyncBatchableClient(SyncClient):
                 attempts -= 1
 
         self.disconnect(self._ignore_connection_calls)
+
+        for request_, response_ in zip(request, batch.responses):
+            self._request_log(request=request_, response=response_)
         return batch.responses
 
     def _make_batch_request(
