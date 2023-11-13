@@ -1,3 +1,4 @@
+import json
 from typing import Optional, Union
 from logging import getLogger
 from abc import ABC
@@ -19,6 +20,7 @@ from utair.clients.external.sirena.base.messaging.response import (
     ResponseEncryptedAsym,
     ResponseEncryptedSym
 )
+from utair.clients.external.sirena.base.models.base_client_response import ResponseModelABC
 from utair.clients.external.sirena.base.types import PublicMethods, AsymEncryptionHandShake
 
 
@@ -149,3 +151,9 @@ class BaseClient(ABC):
             return False
         self._keys.private_key = self._keys.parse_rsa_key(self.private_key) # noqa
         return True
+
+    def _request_log(self, request: RequestModelABC, response: ResponseModelABC):
+        self.logger.info(f"Sirena request: {request.method_name}", extra=dict(
+            sirena_request=json.dumps(request.build(), indent=4),
+            sirena_response=json.dumps(response.payload or {}, indent=4),
+        ))
