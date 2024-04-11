@@ -17,3 +17,4 @@ from utair.clients.external.sirena.requests.svc_emd_issue_query import SVCEmdIss
 from utair.clients.external.sirena.requests.un_archive_order import UnArchiveOrder
 from utair.clients.external.sirena.requests.get_schedule import GetSchedule
 from utair.clients.external.sirena.requests.get_company_routes import GetCompanyRoutes
+from utair.clients.external.sirena.requests.get_pricing_and_monobrand import GetPricingRouteAndMonoBrand

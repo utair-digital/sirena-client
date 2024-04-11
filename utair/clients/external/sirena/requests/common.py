@@ -182,6 +182,10 @@ class RequestParams(RequestModelABC):
                                      default=None)
     formpay: Optional[str] = Field(description="Форма оплаты для оценки", default=None)
     pt_baggage: Optional[bool] = Field(description="Показывать только 'багажные' тарифы", default=None)
+    # todo
+    et_if_possible: Optional[bool] = Field(description="", default=False)
+    allow_change_of_airport: Optional[bool] = Field(description="Разрешены ли пересадки со сменой аэропорта",
+                                                    default=False)
 
     def build(self) -> dict:
         return {
@@ -197,6 +201,8 @@ class RequestParams(RequestModelABC):
             "show_tmb": self.show_tmb,
             "formpay": self.formpay,
             "pt_baggage": self.pt_baggage,
+            "allow_change_of_airport": self.allow_change_of_airport,
+            "et_if_possible": self.et_if_possible
             # et_if_possible, n_prices
         }
 
