@@ -45,7 +45,7 @@ class Header(MessageABC):
 
     @property
     def is_compressed(self) -> bool:
-        return bool(self.meta_flag & self._response_compression_flag)
+        return bool(self.meta_flag & self._request_compression_flag)
 
     @property
     def is_asym_encrypted(self) -> bool:
