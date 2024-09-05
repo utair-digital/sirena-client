@@ -18,3 +18,4 @@ from utair.clients.external.sirena.requests.un_archive_order import UnArchiveOrd
 from utair.clients.external.sirena.requests.get_schedule import GetSchedule
 from utair.clients.external.sirena.requests.get_company_routes import GetCompanyRoutes
 from utair.clients.external.sirena.requests.get_pricing_and_monobrand import GetPricingRouteAndMonoBrand
+from utair.clients.external.sirena.requests.availability import GetAvailabilityRequest
