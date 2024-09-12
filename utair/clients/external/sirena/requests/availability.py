@@ -16,22 +16,22 @@ class AvailabilityRequest(RequestModelABC):
     flight: Optional[str] = Field(default=None, description="Номер рейса")
     baseclass: Optional[str] = Field(default=None, description="Класс обслуживания")
     subclass: Optional[str] = Field(default=None, description="Класс бронирования")
-    direct: Optional[bool] = Field(default=None, description="Признак вывода только прямых рейсов")
+    direct: bool = Field(default=False, description="Признак вывода только прямых рейсов")
     connections: Optional[str] = Field(default=None, description="Правило отображения стыковочных рейсов")
     time_from: Optional[int] = Field(default=None, description="Минимальное время вылета")
     time_till: Optional[int] = Field(default=None, description="Максимальное время вылета")
 
     joint_type: str = Field(default='jtAll', description="Способ выбора стыковок")
-    check_tch_restrictions: Optional[bool] = Field(default=False, description="Признак обязательного учета ограничений на продажу в сеансе ТКП")
-    use_dag: Optional[bool] = Field(default=False, description="Признак обязательного учета ограничений на продажу по картотекам ДАР/ДАГ")
-    use_iak: Optional[bool] = Field(default=False, description="Признак обязательного учета ограничений на продажу по картотеке ИАК")
-    use_a02: Optional[bool] = Field(default=False, description="Признак необходимости использования таблицы А02 для определения класса обслуживания")
+    check_tch_restrictions: bool = Field(default=False, description="Признак обязательного учета ограничений на продажу в сеансе ТКП")
+    use_dag: bool = Field(default=False, description="Признак обязательного учета ограничений на продажу по картотекам ДАР/ДАГ")
+    use_iak: bool = Field(default=False, description="Признак обязательного учета ограничений на продажу по картотеке ИАК")
+    use_a02: bool = Field(default=False, description="Признак необходимости использования таблицы А02 для определения класса обслуживания")
 
-    show_flighttime: Optional[bool] = Field(default=None, description="Получение информации о времени перелета")
-    show_baseclass: Optional[bool] = Field(default=None, description="Выводить базовый класс для каждого подкласса в ответе")
-    return_date: Optional[bool] = Field(default=None, description="Добавить в атрибуты ответа дату, на которую выдается наличие мест")
-    mark_cityport: Optional[bool] = Field(default=None, description="Добавить в тэги пунктов ответного сообщения признаки city или airport")
-    show_et: Optional[bool] = Field(default=None, description="Добавить в ответ признак доступности оформления ЭБ на рейсе")
+    show_flighttime: bool = Field(default=False, description="Получение информации о времени перелета")
+    show_baseclass: bool = Field(default=False, description="Выводить базовый класс для каждого подкласса в ответе")
+    return_date: bool = Field(default=False, description="Добавить в атрибуты ответа дату, на которую выдается наличие мест")
+    mark_cityport: bool = Field(default=False, description="Добавить в тэги пунктов ответного сообщения признаки city или airport")
+    show_et: bool = Field(default=False, description="Добавить в ответ признак доступности оформления ЭБ на рейсе")
 
     lang: str = 'en'
     _method_name: str = 'availability'
@@ -51,7 +51,7 @@ class AvailabilityRequest(RequestModelABC):
         answer_params = {
             "show_flighttime": self.show_flighttime,
             "show_baseclass": self.show_baseclass,
-            "return_date": self.format_date(self.return_date),
+            "return_date": self.return_date,
             "mark_cityport": self.mark_cityport,
             "show_et": self.show_et,
         }
@@ -71,8 +71,5 @@ class AvailabilityRequest(RequestModelABC):
             "request_params": request_params,
             "answer_params": answer_params,
         }
-
-        if self.direct is not None:
-            request["direct"] = self.direct
 
         return request
