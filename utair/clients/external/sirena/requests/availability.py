@@ -11,7 +11,7 @@ class AvailabilityRequest(RequestModelABC):
 
     departure: str = Field(description="Код города или порта отправления")
     arrival: str = Field(description="Код города или порта прибытия")
-    departure_date: Optional[date] = Field(default=None, description="Дата вылета") # вот тут проблема
+    departure_date: Optional[date] = Field(default=None, description="Дата вылета")
     company: Optional[str] = Field(default=None, description="Код авиакомпании")
     flight: Optional[str] = Field(default=None, description="Номер рейса")
     baseclass: Optional[str] = Field(default=None, description="Класс обслуживания")
