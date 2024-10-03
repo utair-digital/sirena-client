@@ -19,26 +19,50 @@ class AsyncConnection:
 
     @property
     def connected(self) -> bool:
-        return all((self.reader, self.writer))
+        if not all((self.reader, self.writer)):
+            return False
+        if self.writer.is_closing():
+            return False
+        return True
 
     async def write(self, data: bytes):
         self.writer.write(data)
         await self.writer.drain()
 
     async def read(self, size: int) -> bytes:
-        data: bytes = await self.reader.read(size)
-        return data
+        try:
+            data: bytes = await asyncio.wait_for(self.reader.read(size), timeout=60)
+            return data
+        except IOError:
+            await self.disconnect()
+            raise
 
     async def connect(self):
         if self.connected:
             return
-        self.reader, self.writer = await asyncio.open_connection(self.host, self.port)
-        if not any((self.writer, self.writer)):
-            raise ConnectionError(f'Can not get connection to {self.host}:{self.port}')
+        await self._tcp_reconnect()
+
+    async def _tcp_reconnect(self):
+        max_tries = 5
+        _try = 1
+        while _try <= max_tries:
+            try:
+                self.reader, self.writer = await asyncio.open_connection(self.host, self.port)
+                if not any((self.writer, self.writer)):
+                    raise ConnectionError(f'Can not get connection to {self.host}:{self.port}')
+                return
+            except (IOError, asyncio.TimeoutError):
+                pass
+            await asyncio.sleep(2.0)
+            _try += 1
 
     async def disconnect(self):
         if not self.connected:
             return
-        self.writer.close()
+        try:
+            self.writer.close()
+            await self.writer.wait_closed()
+        except:     # noqa
+            pass
         self.writer = None
         self.reader = None
