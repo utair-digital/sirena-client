@@ -55,6 +55,7 @@ class AsyncConnection:
                 pass
             await asyncio.sleep(2.0)
             _try += 1
+        raise ConnectionError(f'Can not get connection to {self.host}:{self.port}')
 
     async def disconnect(self):
         if not self.connected:
