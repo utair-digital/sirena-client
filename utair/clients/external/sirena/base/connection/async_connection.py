@@ -1,5 +1,7 @@
 import asyncio
 import random
+import socket
+import sys
 from typing import Union, Optional
 
 
@@ -48,12 +50,19 @@ class AsyncConnection:
         while _try <= max_tries:
             try:
                 self.reader, self.writer = await asyncio.open_connection(self.host, self.port)
-                if not any((self.writer, self.writer)):
-                    raise ConnectionError(f'Can not get connection to {self.host}:{self.port}')
+
+                _sock = self.writer.get_extra_info("socket")
+                _sock.setsockopt(socket.SOL_SOCKET, socket.SO_KEEPALIVE, 1)
+                _sock.setsockopt(socket.IPPROTO_TCP, socket.TCP_KEEPINTVL, 75)
+                keep_cnt = 9 if sys.platform != "win32" else 10
+                _sock.setsockopt(socket.IPPROTO_TCP, socket.TCP_KEEPCNT, keep_cnt)
+                if sys.platform != 'darwin':
+                    _sock.setsockopt(socket.IPPROTO_TCP, socket.TCP_KEEPIDLE, 60)
+
                 return
             except (IOError, asyncio.TimeoutError):
                 pass
-            await asyncio.sleep(2.0)
+            await asyncio.sleep(1.0)
             _try += 1
         raise ConnectionError(f'Can not get connection to {self.host}:{self.port}')
 
