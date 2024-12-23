@@ -14,6 +14,7 @@ class GetSchedule(RequestModelABC):
     time_from: Optional[str] = Field(default=None, description="Минимальное время вылета (время в формате HH24MI)")
     time_till: Optional[str] = Field(default=None, description="Максимальное время вылета (время в формате HH24MI)")
     direct: Optional[bool] = Field(default=None, description="Признак вывода только прямых рейсов")
+    joint_type: Optional[str] = Field(default=None, description="Тип рассматриваемых стыковок")
 
     only_m2_joints: Optional[bool] = Field(
         default=False, description="Выбираются только стыковки, созданные по договорам М2"
@@ -57,5 +58,8 @@ class GetSchedule(RequestModelABC):
 
         if self.direct is not None:
             request["direct"] = self.direct
+
+        if self.joint_type is not None:
+            request["joint_type"] = self.joint_type
 
         return request
