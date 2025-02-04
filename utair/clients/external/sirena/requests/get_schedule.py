@@ -44,6 +44,10 @@ class GetSchedule(RequestModelABC):
             "lang": self.lang,
         }
 
+        if self.joint_type is not None:
+            request_params["joint_type"] = self.joint_type
+
+
         request = {
             "departure": self.departure,
             "arrival": self.arrival,
@@ -58,8 +62,5 @@ class GetSchedule(RequestModelABC):
 
         if self.direct is not None:
             request["direct"] = self.direct
-
-        if self.joint_type is not None:
-            request["joint_type"] = self.joint_type
 
         return request
