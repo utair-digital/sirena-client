@@ -1,4 +1,4 @@
-[tool.poetry]
+[project]
 name = "sirena-client"
 version = "0.1.11-alpha"
 description = "SirenaGDS Python Client"
@@ -6,7 +6,6 @@ authors = ["Utair"]
 packages = [
     { include = "utair/clients/external/sirena"},
 ]
-
 license = "Apache License Version 2.0, January 2004"
 readme = "README.md"
 
