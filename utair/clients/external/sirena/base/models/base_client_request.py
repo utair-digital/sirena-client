@@ -1,6 +1,6 @@
 from typing import Optional
 from abc import ABC, abstractmethod
-from pydantic import BaseModel, validator, Field
+from pydantic import BaseModel, field_validator, Field
 from xmltodict import unparse
 from utair.clients.external.sirena.base.types import AsymEncryptionHandShake, PublicMethods
 
@@ -9,7 +9,7 @@ class RequestModelABC(BaseModel, ABC):
     _method_name: str = ''
     _nested: bool = False   # Вложенная часть
 
-    @validator("rloc", pre=False, check_fields=False)
+    @field_validator("rloc")
     def format_rloc(cls, rloc: Optional[str]) -> Optional[str]:
         """
         Форматирование рлока
@@ -18,7 +18,7 @@ class RequestModelABC(BaseModel, ABC):
             return rloc.split('/')[0]
         return rloc
 
-    @validator("last_name", pre=False, check_fields=False)
+    @field_validator("last_name")
     def format_last_name(cls, last_name: Optional[str]) -> Optional[str]:
         """
         Форматирование фамилии
