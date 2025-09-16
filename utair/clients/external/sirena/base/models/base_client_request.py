@@ -9,7 +9,7 @@ class RequestModelABC(BaseModel, ABC):
     _method_name: str = ''
     _nested: bool = False   # Вложенная часть
 
-    @field_validator("rloc")
+    @field_validator("rloc", check_fields=False)
     def format_rloc(cls, rloc: Optional[str]) -> Optional[str]:
         """
         Форматирование рлока
@@ -18,7 +18,7 @@ class RequestModelABC(BaseModel, ABC):
             return rloc.split('/')[0]
         return rloc
 
-    @field_validator("last_name")
+    @field_validator("last_name", check_fields=False)
     def format_last_name(cls, last_name: Optional[str]) -> Optional[str]:
         """
         Форматирование фамилии
