@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "sirena-client"
-version = "0.1.11-alpha"
+version = "0.1.12-alpha"
 description = "SirenaGDS Python Client"
 authors = ["Utair"]
 packages = [
