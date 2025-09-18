@@ -156,6 +156,6 @@ class BaseClient(ABC):
         self.logger.info(f"Sirena request: {request.method_name}", extra=dict(
             integrator_name="sirena",
             api_method=request.method_name,
-            request_body=json.dumps(request.build(), indent=4),
-            response_body=json.dumps(response.payload or {}, indent=4),
+            request_body=json.dumps(request.build(), indent=4, ensure_ascii=False),
+            response_body=json.dumps(response.payload or {}, indent=4, ensure_ascii=False),
         ))
