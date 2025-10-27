@@ -22,7 +22,7 @@ class SsrUnitForAdd(RequestModelABC):
             'flight': self.flight,
             'departure': self.departure,
             'arrival': self.arrival,
-            'date': self.departure_date.strftime("%d.%m.%y"),
+            'date': self.departure_date,
         }
 
 
@@ -47,10 +47,8 @@ class SSRForAdd(RequestModelABC):
 
     def build(self) -> dict:
         return {
-            '@seg_id': 'segment_id',        # FIXME
-            '@pass_id': 'passenger_id',     # FIXME
-            '@text': 'text',                # FIXME
-            '@type': 'type',                # FIXME
+            '@text': self.text,
+            '@type': self.ssr_type,
             'unit': [u.build() for u in self.units]
         }
 
@@ -64,7 +62,6 @@ class AddSSRRequest(RequestModelABC):
 
     rloc: str = Field(description="Номер PNR")
     last_name: str = Field(description="Фамилия пассажира")
-    version: int = Field(description="Версия PNR")
     ssrs: List[SSRForAdd] = Field(description="Объекты услуг для добавления")
 
     lang: str = 'en'
