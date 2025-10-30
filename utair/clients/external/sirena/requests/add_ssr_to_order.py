@@ -1,4 +1,5 @@
 from typing import List, Optional
+from datetime import date
 from pydantic import Field
 from utair.clients.external.sirena.base.models.base_client_request import RequestModelABC
 
@@ -10,7 +11,7 @@ class SsrUnitForAdd(RequestModelABC):
     flight: Optional[str] = Field(description="Рейс", default=None)
     departure: Optional[str] = Field(description="Пункт отправления", default=None)
     arrival: Optional[str] = Field(description="Пункт прибытия", default=None)
-    departure_date: Optional[str] = Field(description="Дата вылета", default=None)
+    departure_date: Optional[date] = Field(description="Дата вылета", default=None)
 
     _nested: bool = True
 
@@ -22,7 +23,7 @@ class SsrUnitForAdd(RequestModelABC):
             'flight': self.flight,
             'departure': self.departure,
             'arrival': self.arrival,
-            'date': self.departure_date,
+            'date': self.departure_date.strftime("%d.%m.%y"),
         }
 
 
