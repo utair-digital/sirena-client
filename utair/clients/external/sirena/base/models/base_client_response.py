@@ -5,54 +5,57 @@ from xmltodict import parse, expat
 from utair.clients.external.sirena.base.messaging.response import ResponseABC
 from utair.clients.external.sirena.base.exception import BaseError
 from utair.clients.external.sirena import exceptions
-from utair.clients.external.sirena.base.types import AsymEncryptionHandShake, PublicMethods
+from utair.clients.external.sirena.base.types import (
+    AsymEncryptionHandShake,
+    PublicMethods,
+)
 
 EXCEPTION_MAP = {
-    '-42': exceptions.SirenaEncryptionKeyError,  # Кастомный код и ошибка
-    '-1': exceptions.SirenaMessageTimedOutError,
-    '7505': exceptions.SirenaTicketNotExistError,
-    '4006': exceptions.SirenaDateNotControl,
-    '28067': exceptions.SirenaPnrAlreadyUnArchived,
-    '25235': exceptions.SirenaDuplicateSsr,
-    '28151': exceptions.SirenaWrongDocumentIssuedCountry,
-    '31054': exceptions.SirenaSystemError,
-    '31112': exceptions.SirenaTicketOrDocumentNumberNotFound,
-    '31196': exceptions.SirenaUnableToCancelServices,
-    '31198': exceptions.SirenaInvalidNumberOfSSR,
-    '33000': exceptions.SirenaInternalError,
-    '33002': exceptions.SirenaPultBusyError,
-    '33003': exceptions.SirenaParseRequestError,
-    '33009': exceptions.SirenaParseRequestError,
-    '33010': exceptions.SirenaParseRequestError,
-    '33011': exceptions.SirenaOrderNotFound,
-    '33029': exceptions.WrongDocumentPaymentDocumentType,
-    '33033': exceptions.SirenaPnrNotBookedOnline,
-    '33034': exceptions.SirenaPnrAndSurnameDontMatch,
-    '33036': exceptions.SirenaMoreThanOneSublassProvided,
-    '33041': exceptions.SirenaPnrBusyError,
-    '33044': exceptions.SirenaPnrWaitingForPaymentConfirmationError,
-    '33057': exceptions.SirenaOperationCostOrCurrencyError,
-    '33080': exceptions.SirenaUnableToFindReceiptForPnr,
-    '33092': exceptions.SirenaAccessToPnrDenied,
-    '33099': exceptions.SirenaPassengerNotFoundError,
-    '33158': exceptions.SirenaInvalidNumberOfSSR,
-    '33177': exceptions.SirenaSegmentNotFoundError,
-    '33235': exceptions.SirenaDepartureDateInPast,
-    '33381': exceptions.SirenaPNRWasChanded,
-    '33484': exceptions.SirenaCantAddSSRToNotActiveSegment,
-    '33494': exceptions.SirenaFobiddenIpAddress,
-    '33521': exceptions.SirenaPnrHasSvcError,
-    '33529': exceptions.SirenaInvalidFlightNumber,
-    '33553': exceptions.SirenaUnableToDeleteSegment,
-    '31211': exceptions.SirenaDuplicateSvc,
-    '37021': exceptions.SirenaSeatMapIsTurnedOff,
-    '41027': exceptions.SirenaPassengersTitleNotFoundError,
-    '65108': exceptions.SirenaUnableToDerminateAirlineCode,
-    '65167': exceptions.SirenaChangeIsNotPermitted,
-    '65538': exceptions.SirenaInsuranceExists,
-    '65572': exceptions.SirenaInsuranceExists,
-    '65148': exceptions.SirenaUnusedSegmentsMustReturned,
-    '101171': exceptions.SirenaEmdCancelDenied
+    "-42": exceptions.SirenaEncryptionKeyError,  # Кастомный код и ошибка
+    "-1": exceptions.SirenaMessageTimedOutError,
+    "7505": exceptions.SirenaTicketNotExistError,
+    "4006": exceptions.SirenaDateNotControl,
+    "28067": exceptions.SirenaPnrAlreadyUnArchived,
+    "25235": exceptions.SirenaDuplicateSsr,
+    "28151": exceptions.SirenaWrongDocumentIssuedCountry,
+    "31054": exceptions.SirenaSystemError,
+    "31112": exceptions.SirenaTicketOrDocumentNumberNotFound,
+    "31196": exceptions.SirenaUnableToCancelServices,
+    "31198": exceptions.SirenaInvalidNumberOfSSR,
+    "33000": exceptions.SirenaInternalError,
+    "33002": exceptions.SirenaPultBusyError,
+    "33003": exceptions.SirenaParseRequestError,
+    "33009": exceptions.SirenaParseRequestError,
+    "33010": exceptions.SirenaParseRequestError,
+    "33011": exceptions.SirenaOrderNotFound,
+    "33029": exceptions.WrongDocumentPaymentDocumentType,
+    "33033": exceptions.SirenaPnrNotBookedOnline,
+    "33034": exceptions.SirenaPnrAndSurnameDontMatch,
+    "33036": exceptions.SirenaMoreThanOneSublassProvided,
+    "33041": exceptions.SirenaPnrBusyError,
+    "33044": exceptions.SirenaPnrWaitingForPaymentConfirmationError,
+    "33057": exceptions.SirenaOperationCostOrCurrencyError,
+    "33080": exceptions.SirenaUnableToFindReceiptForPnr,
+    "33092": exceptions.SirenaAccessToPnrDenied,
+    "33099": exceptions.SirenaPassengerNotFoundError,
+    "33158": exceptions.SirenaInvalidNumberOfSSR,
+    "33177": exceptions.SirenaSegmentNotFoundError,
+    "33235": exceptions.SirenaDepartureDateInPast,
+    "33381": exceptions.SirenaPNRWasChanded,
+    "33484": exceptions.SirenaCantAddSSRToNotActiveSegment,
+    "33494": exceptions.SirenaFobiddenIpAddress,
+    "33521": exceptions.SirenaPnrHasSvcError,
+    "33529": exceptions.SirenaInvalidFlightNumber,
+    "33553": exceptions.SirenaUnableToDeleteSegment,
+    "31211": exceptions.SirenaDuplicateSvc,
+    "37021": exceptions.SirenaSeatMapIsTurnedOff,
+    "41027": exceptions.SirenaPassengersTitleNotFoundError,
+    "65108": exceptions.SirenaUnableToDerminateAirlineCode,
+    "65167": exceptions.SirenaChangeIsNotPermitted,
+    "65538": exceptions.SirenaInsuranceExists,
+    "65572": exceptions.SirenaInsuranceExists,
+    "65148": exceptions.SirenaUnusedSegmentsMustReturned,
+    "101171": exceptions.SirenaEmdCancelDenied,
 }
 
 
@@ -61,7 +64,7 @@ class ResponseModelABC(BaseModel, ABC):
     error: Optional[BaseError] = None
 
     _parsed_response: Optional[Dict] = PrivateAttr(default=None)
-    _root_level_key: str = 'answer'
+    _root_level_key: str = "answer"
 
     class Config:
         arbitrary_types_allowed = True
@@ -104,8 +107,10 @@ class ResponseModelABC(BaseModel, ABC):
         если этот 'Response' ассимитричного шифрования для хэндшейка
         """
         if self.method_name != AsymEncryptionHandShake.ASYM_HAND_SHAKE.value:
-            raise RuntimeError("Trying to get symmetric key from from invalid response method")
-        return self.data   # noqa
+            raise RuntimeError(
+                "Trying to get symmetric key from from invalid response method"
+            )
+        return self.data  # noqa
 
     @property
     def data(self) -> Optional[Dict]:
@@ -124,7 +129,7 @@ class ResponseModelABC(BaseModel, ABC):
         """
         splitted = _base_xml.split("\n")
         line = splitted[_line_no - 1]
-        splitted[_line_no - 1] = line[:_offset] + line[_offset + 1:]
+        splitted[_line_no - 1] = line[:_offset] + line[_offset + 1 :]
         return "\n".join(splitted)
 
     def _parse_response(self) -> Optional[Dict]:
@@ -140,14 +145,17 @@ class ResponseModelABC(BaseModel, ABC):
                 result = dict(
                     parse(
                         payload,
-                        attr_prefix='@',
-                        cdata_key='text',
+                        attr_prefix="@",
+                        cdata_key="text",
                         force_list=self._get_force_list(self.method_name),
-                        dict_constructor=dict
+                        dict_constructor=dict,
                     )
-                )['sirena']
+                )["sirena"]
             except expat.ExpatError as e:
-                if self.response.method_name == AsymEncryptionHandShake.ASYM_HAND_SHAKE.value:
+                if (
+                    self.response.method_name
+                    == AsymEncryptionHandShake.ASYM_HAND_SHAKE.value
+                ):
                     payload = self._remove_symbol(payload, e.lineno, e.offset - 1)
                 else:
                     payload = self._remove_symbol(payload, e.lineno, e.offset)
@@ -166,26 +174,41 @@ class ResponseModelABC(BaseModel, ABC):
         #  поле flight - может быть ключом списка перелетов и в то же время может быть номером рейса у сегмента,
         #  поэтому нельзя просто проставить этот ключ в force_list
         force_list_for_method = {
-            'order': (
-                'passenger', 'segment', 'svc',
-                'leg', 'price', 'ssr', 'contact',
-                'email', 'payment', 'insurance'
+            "order": (
+                "passenger",
+                "segment",
+                "svc",
+                "leg",
+                "price",
+                "ssr",
+                "contact",
+                "email",
+                "payment",
+                "insurance",
             ),
             "svc_add": (  # такие же как order, чтобы проще разбирать ответ
-                'passenger', 'segment', 'svc',
-                'leg', 'price', 'ssr', 'contact',
-                'email', 'payment', 'insurance'
+                "passenger",
+                "segment",
+                "svc",
+                "leg",
+                "price",
+                "ssr",
+                "contact",
+                "email",
+                "payment",
+                "insurance",
             ),
-            'pricing_route': (
-                'flight', 'variant'
+            "svc_emd_issue_confirm": (
+                "passenger",
+                "segment",
+                "emd",
+                "ticket",
+                "svc",
             ),
-            "pricing_variant": (
-                "direction", "svc", "price"
-            ),
+            "pricing_route": ("flight", "variant"),
+            "pricing_variant": ("direction", "svc", "price"),
             # "pricing_variant": pricing_variant,
-            'view_flown_status': (
-                'passenger', 'segment', 'svc'
-            )
+            "view_flown_status": ("passenger", "segment", "svc"),
         }
         if method_name in force_list_for_method.keys():
             return force_list_for_method.get(method_name)
@@ -194,10 +217,12 @@ class ResponseModelABC(BaseModel, ABC):
     def _check_for_error(self):
         self._check_expired_keys_error(self.payload)
 
-        error_level = self.payload.get(self._root_level_key, dict()).get(self.method_name)
+        error_level = self.payload.get(self._root_level_key, dict()).get(
+            self.method_name
+        )
         if not error_level:
             return
-        if 'error' not in error_level:
+        if "error" not in error_level:
             return
         error_code = error_level.get("error", {}).get("@code")
         error_text = error_level.get("error", {}).get("text")
@@ -206,21 +231,25 @@ class ResponseModelABC(BaseModel, ABC):
             self.error = error_class()
             return
         self.error = exceptions.BaseSirenaError(
-            message=f'Unhandled error by sirena response with code {error_code}: {error_text}'
+            message=f"Unhandled error by sirena response with code {error_code}: {error_text}"
         )
 
     def _check_expired_keys_error(self, error: Dict):
         root_level = error.get(self._root_level_key)
-        error = root_level.get('error')
-        if not error and self.method_name != 'describe':
-            error = root_level.get('describe')
+        error = root_level.get("error")
+        if not error and self.method_name != "describe":
+            error = root_level.get("describe")
         if not error:
             return
-        if error and all([
-            self.method_name not in PublicMethods._value2member_map_,   # noqa
-            error.get('@code') and error.get('@code') == '-1',
-            error.get('@crypt_error') and error.get('@crypt_error') in ('4', '5')
-        ]):
-            raise exceptions.SirenaEncryptionKeyError(error.get('@text', 'Unknown symmetric key'))
-        if e := error.get('error') or error:
-            raise exceptions.SirenaFobiddenIpAddress(e.get('text'), e.get('@code'))
+        if error and all(
+            [
+                self.method_name not in PublicMethods._value2member_map_,  # noqa
+                error.get("@code") and error.get("@code") == "-1",
+                error.get("@crypt_error") and error.get("@crypt_error") in ("4", "5"),
+            ]
+        ):
+            raise exceptions.SirenaEncryptionKeyError(
+                error.get("@text", "Unknown symmetric key")
+            )
+        if e := error.get("error") or error:
+            raise exceptions.SirenaFobiddenIpAddress(e.get("text"), e.get("@code"))
