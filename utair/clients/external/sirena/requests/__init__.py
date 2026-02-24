@@ -32,6 +32,8 @@ from utair.clients.external.sirena.requests.svc_emd_issue_confirm import (
     SVCEmdIssueConfirm,
 )
 from utair.clients.external.sirena.requests.svc_emd_issue_query import SVCEmdIssueQuery
+from utair.clients.external.sirena.requests.svc_emd_issue_cancel import SVCEmdIssueCancelRequest
+from utair.clients.external.sirena.requests.svc_emd_void import SVCEmdVoidRequest
 from utair.clients.external.sirena.requests.un_archive_order import UnArchiveOrder
 from utair.clients.external.sirena.requests.get_schedule import GetSchedule
 from utair.clients.external.sirena.requests.get_company_routes import GetCompanyRoutes

@@ -14,7 +14,7 @@ class PaymentCost(RequestModelABC):
     def build(self) -> dict:
         return {
             '@curr': self.currency,
-            '#text': self.amount
+            '#text': f"{self.amount:.2f}"
         }
 
 
