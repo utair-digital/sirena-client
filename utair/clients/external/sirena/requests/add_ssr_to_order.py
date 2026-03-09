@@ -1,4 +1,5 @@
 from typing import List, Optional
+from datetime import date
 from pydantic import Field
 from utair.clients.external.sirena.base.models.base_client_request import RequestModelABC
 
@@ -10,7 +11,7 @@ class SsrUnitForAdd(RequestModelABC):
     flight: Optional[str] = Field(description="Рейс", default=None)
     departure: Optional[str] = Field(description="Пункт отправления", default=None)
     arrival: Optional[str] = Field(description="Пункт прибытия", default=None)
-    departure_date: Optional[str] = Field(description="Дата вылета", default=None)
+    departure_date: Optional[date] = Field(description="Дата вылета", default=None)
 
     _nested: bool = True
 
@@ -47,10 +48,8 @@ class SSRForAdd(RequestModelABC):
 
     def build(self) -> dict:
         return {
-            '@seg_id': 'segment_id',        # FIXME
-            '@pass_id': 'passenger_id',     # FIXME
-            '@text': 'text',                # FIXME
-            '@type': 'type',                # FIXME
+            '@text': self.text,
+            '@type': self.ssr_type,
             'unit': [u.build() for u in self.units]
         }
 
@@ -64,7 +63,6 @@ class AddSSRRequest(RequestModelABC):
 
     rloc: str = Field(description="Номер PNR")
     last_name: str = Field(description="Фамилия пассажира")
-    version: int = Field(description="Версия PNR")
     ssrs: List[SSRForAdd] = Field(description="Объекты услуг для добавления")
 
     lang: str = 'en'
