@@ -41,18 +41,20 @@ class SSRForAdd(RequestModelABC):
         description="Наименование услуги — name, необязательный параметр;"
     )
     ssr_type: str = Field(description="Тип услуги")
-    units: List[SsrUnitForAdd] = Field(default_factory=list),
+    units: List[SsrUnitForAdd] = Field(default_factory=list)
 
     _nested: bool = True
 
     def build(self) -> dict:
-        return {
-            '@seg_id': 'segment_id',        # FIXME
-            '@pass_id': 'passenger_id',     # FIXME
-            '@text': 'text',                # FIXME
-            '@type': 'type',                # FIXME
-            'unit': [u.build() for u in self.units]
-        }
+        request = {'@text': self.text,
+                   '@type': self.ssr_type}
+        if self.segment_id:
+            request['@seg_id'] = self.segment_id
+        if self.passenger_id:
+            request['@pass_id'] = self.passenger_id
+        if self.units:
+            request['@units'] = [u.build() for u in self.units]
+        return request
 
 
 class AddSSRRequest(RequestModelABC):
