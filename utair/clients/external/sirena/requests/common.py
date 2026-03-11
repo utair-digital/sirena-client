@@ -133,7 +133,6 @@ class ExchangeSegments(RequestModelABC):
 
         return request
 
-
 class Passenger(RequestModelABC):
     """
     Информация о пассажире, используется в GetCalendar, GetPricingRoute
@@ -146,9 +145,10 @@ class Passenger(RequestModelABC):
     citizenship: Optional[str] = Field(description="Гражданство", default=None)
     residence: Optional[str] = Field(description="Страна проживания", default=None)
     count: Optional[int] = Field(description="Количество пассажиров с такими параметрами", default=1)
+    passenger_id: Optional[int] = Field(description="ID пассажира", default=False)
 
     def build(self) -> dict:
-        return {
+        request = {
             "code": self.code,
             "age": self.age,
             "sex": self.sex,
@@ -158,6 +158,9 @@ class Passenger(RequestModelABC):
             "residence": self.residence,
             "count": self.count,
         }
+        if self.passenger_id:
+            request['@id'] = self.passenger_id
+        return request
 
 
 class RequestParams(RequestModelABC):
