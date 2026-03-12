@@ -212,23 +212,7 @@ class RequestParams(RequestModelABC):
         }
         if self.real_seats:
             request['real_seats'] = self.real_seats
-        return {
-            "min_results": self.min_results,
-            "max_results": self.max_results,
-            "timeout": self.timeout,
-            "mix_scls": self.mix_scls,
-            "mix_ac": self.mix_ac,
-            "comb_rules": self.comb_rules,
-            "fingering_order": self.fingering_order,
-            "price_child_aaa": self.price_child_aaa,
-            "asynchronous_fares": self.asynchronous_fares,
-            "show_tmb": self.show_tmb,
-            "formpay": self.formpay,
-            "pt_baggage": self.pt_baggage,
-            "allow_change_of_airport": self.allow_change_of_airport,
-            "et_if_possible": self.et_if_possible
-            # et_if_possible, n_prices
-        }
+        return request
 
 
 class AnswerParams(RequestModelABC):
