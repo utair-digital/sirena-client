@@ -189,9 +189,11 @@ class RequestParams(RequestModelABC):
     et_if_possible: Optional[bool] = Field(description="", default=False)
     allow_change_of_airport: Optional[bool] = Field(description="Разрешены ли пересадки со сменой аэропорта",
                                                     default=False)
+    real_seats: Optional[bool] = Field(description="Учитывать реальное количество оставшихся мест в подклассе",
+                                       default=None)
 
     def build(self) -> dict:
-        return {
+        request ={
             "min_results": self.min_results,
             "max_results": self.max_results,
             "timeout": self.timeout,
@@ -208,6 +210,9 @@ class RequestParams(RequestModelABC):
             "et_if_possible": self.et_if_possible
             # et_if_possible, n_prices
         }
+        if self.real_seats:
+            request['real_seats'] = self.real_seats
+        return request
 
 
 class AnswerParams(RequestModelABC):
