@@ -20,8 +20,8 @@ class PricingRouteAndMonoBrandSegment(RequestModelABC):
     # по дэфолту название class, поэтому переименовал
     service_class: Optional[str] = Field(description="Класс обслуживания",
                                          default=None)
-    direct: Optional[bool] = Field(description="Признак вывода только прямых рейсов",
-                                   default=True)
+    direct: Optional[bool] | str = Field(description="Признак вывода только прямых рейсов",
+                                         default=True)
     connections: Optional[str] = Field(description="Правило отображения стыковочных рейсов",
                                        default=None)
     time_from: Optional[int] = Field(description="Самое раннее время вылета (включительно)",
@@ -33,12 +33,14 @@ class PricingRouteAndMonoBrandSegment(RequestModelABC):
     ignore: Optional[str] = Field(description="Список рейсов, исключаемых из рассмотрения",
                                   default=None)
 
+    companies: Optional[list[str]] = Field(description="Коды маркетингового перевозчика", default=None)
+
     def build(self) -> dict:
-        return {
+
+        result = {
             "departure": self.departure,
             "arrival": self.arrival,
             "date": self.departure_date.strftime("%d.%m.%y"),
-            "company": self.company,
             "flight": self.flight,
             "subclass": self.subclass,
             "class": self.service_class,
@@ -49,6 +51,12 @@ class PricingRouteAndMonoBrandSegment(RequestModelABC):
             "desire": self.desire,
             "ignore": self.ignore,
         }
+        if self.companies:
+            result["company"] = self.companies
+        else:
+            result["company"] = self.company
+
+        return result
 
 
 class GetPricingRouteAndMonoBrand(RequestModelABC):
