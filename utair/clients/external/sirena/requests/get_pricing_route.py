@@ -11,16 +11,29 @@ from utair.clients.external.sirena.requests.pricing_common import (
     PricingFlightFilter,
     PricingRequestParams,
 )
-
 __all__ = [
     "GetPricingRoute",
     "PricingRouteSegment",
     "PricingRoutePassenger",
+    "PricingRouteBrand",
     "PricingAcomp",
     "PricingFlightFilter",
     "PricingRequestParams",
     "PricingAnswerParams",
 ]
+
+
+class PricingRouteBrand(RequestModelABC):
+    """Элемент request_params.brand. Переоценка корзины с брендом тарифа (MN, OP, …)."""
+
+    # Недокументировано в wiki (Table 2.34): request_params.brand
+    segment_id: str = Field(description="Идентификатор сегмента (@seg_id)")
+    brand_code: str = Field(description="Код бренда (#text), напр. MN, OP, MIN")
+
+    _nested: bool = True
+
+    def build(self) -> dict:
+        return {"@seg_id": self.segment_id, "#text": self.brand_code}
 
 
 class PricingRouteSegment(RequestModelABC):
@@ -168,6 +181,7 @@ class PricingRoutePassenger(RequestModelABC):
         description="Количество мест, занимаемых пассажиром (для EXST)",
         default=None,
     )
+    # Недокументировано в Table 2.33, есть в Examples (SSR pass_id)
     passenger_id: Optional[int] = Field(
         description="Идентификатор пассажира (атрибут @id), для связи с SSR pass_id",
         default=None,
@@ -211,6 +225,11 @@ class GetPricingRoute(RequestModelABC):
         description="Дополнительные параметры ответа",
         default=None,
     )
+    # Недокументировано в wiki (Table 2.34): request_params.brand
+    brands: Optional[List[PricingRouteBrand]] = Field(
+        description="Бренды тарифов по сегментам (request_params.brand)",
+        default=None,
+    )
 
     _method_name: str = "pricing_route"
 
@@ -240,10 +259,14 @@ class GetPricingRoute(RequestModelABC):
         return self
 
     def build(self) -> dict:
+        request_params = self.request_params.build() if self.request_params else {}
+        if self.brands:
+            request_params["brand"] = [b.build() for b in self.brands]
+
         request: dict = {
             "segment": [s.build() for s in self.segments],
             "passenger": [p.build() for p in self.passengers],
-            "request_params": self.request_params.build() if self.request_params else {},
+            "request_params": request_params,
             "answer_params": self.answer_params.build() if self.answer_params else {},
         }
         if self.special_services:

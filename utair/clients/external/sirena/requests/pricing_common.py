@@ -72,9 +72,7 @@ class PricingFormPay(RequestModelABC):
 
 
 class PricingRequestParams(BaseRequestParams):
-    """
-    Специфичные параметры <request_params> для pricing-запросов
-    """
+    """Специфичные параметры <request_params> для pricing-запросов (Table 2.34)."""
 
     min_results: Optional[Union[int, Literal["spOnePass"]]] = Field(
         description="Минимальное желаемое количество разных оценок "
@@ -126,7 +124,7 @@ class PricingRequestParams(BaseRequestParams):
         description="Показывать только 'багажные' тарифы",
         default=None,
     )
-    # далее идут недокументированные параметры:
+    # Недокументировано в wiki (Table 2.34): et_if_possible, allow_change_of_airport, real_seats
     et_if_possible: Optional[bool] = Field(
         description="Оформление ЭБ при возможности",
         default=False,
@@ -139,7 +137,6 @@ class PricingRequestParams(BaseRequestParams):
         description="Учитывать реальное количество мест",
         default=None,
     )
-    # --------------------------------
 
     _nested: bool = True
 
@@ -187,9 +184,7 @@ class PricingRequestParams(BaseRequestParams):
 
 
 class PricingAnswerParams(BaseAnswerParams):
-    """
-    Специфичные параметры <answer_params> для pricing-запросов
-    """
+    """Специфичные параметры <answer_params> для pricing-запросов (Table 2.35)."""
 
     show_available: Optional[bool] = Field(
         description="Добавлять в ответ информацию о наличии мест на подклассе",
@@ -264,6 +259,19 @@ class PricingAnswerParams(BaseAnswerParams):
         "багажа и ручной клади",
         default=None,
     )
+    # Недокументировано в wiki (Table 2.35): show_et, show_regroup_io_matching, show_trcantpr
+    show_et: Optional[bool] = Field(
+        description="Признак доступности оформления ЭБ на рейсе",
+        default=None,
+    )
+    show_regroup_io_matching: Optional[bool] = Field(
+        description="Соответствие сегментов при regroup",
+        default=None,
+    )
+    show_trcantpr: Optional[bool] = Field(
+        description="Детализация тарифа",
+        default=None,
+    )
 
     _nested: bool = True
 
@@ -289,4 +297,7 @@ class PricingAnswerParams(BaseAnswerParams):
             "show_joint_id": self.show_joint_id,
             "show_meals": self.show_meals,
             "show_bag_norm_full": self.show_bag_norm_full,
+            "show_et": self.show_et,
+            "show_regroup_io_matching": self.show_regroup_io_matching,
+            "show_trcantpr": self.show_trcantpr,
         }
