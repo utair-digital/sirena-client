@@ -27,7 +27,7 @@ from utair.clients.external.sirena.requests.get_itinerary_receipt import (
     GetItineraryReceipt,
 )
 from utair.clients.external.sirena.requests.get_modified_orders import GetModifiedOrders
-from utair.clients.external.sirena.requests.get_order import GetOrder
+from utair.clients.external.sirena.requests.get_order import GetOrder, GetOrderSvc
 from utair.clients.external.sirena.requests.svc_emd_issue_confirm import (
     SVCEmdIssueConfirm,
 )
