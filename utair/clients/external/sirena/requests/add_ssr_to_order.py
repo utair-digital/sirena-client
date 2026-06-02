@@ -54,7 +54,7 @@ class SSRForAdd(RequestModelABC):
         if self.passenger_id:
             request['@pass_id'] = self.passenger_id
         if self.units:
-            request['@units'] = [u.build() for u in self.units]
+            request['unit'] = [u.build() for u in self.units]
         return request
 
 
