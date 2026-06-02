@@ -67,7 +67,6 @@ class AddSSRRequest(RequestModelABC):
 
     rloc: str = Field(description="Номер PNR")
     last_name: str = Field(description="Фамилия пассажира")
-    version: int = Field(description="Версия PNR")
     ssrs: List[SSRForAdd] = Field(description="Объекты услуг для добавления")
 
     lang: str = 'en'
