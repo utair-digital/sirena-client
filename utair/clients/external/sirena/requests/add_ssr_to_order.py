@@ -23,7 +23,7 @@ class SsrUnitForAdd(RequestModelABC):
             'flight': self.flight,
             'departure': self.departure,
             'arrival': self.arrival,
-            'date': self.departure_date.strftime("%d.%m.%y") if self.departure_date else None,
+            'date': self.departure_date.strftime("%d.%m.%Y") if self.departure_date else None,
         }
 
 
