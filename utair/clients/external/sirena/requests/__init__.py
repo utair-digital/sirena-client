@@ -42,3 +42,4 @@ from utair.clients.external.sirena.requests.get_pricing_and_monobrand import (
 )
 from utair.clients.external.sirena.requests.availability import AvailabilityRequest
 from utair.clients.external.sirena.requests.get_pricing_variant import GetPricingVariant
+from utair.clients.external.sirena.requests.remove_segments import RemoveSegmentsRequest
