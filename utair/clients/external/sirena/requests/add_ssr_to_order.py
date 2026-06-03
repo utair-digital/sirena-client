@@ -1,6 +1,5 @@
 from datetime import date
 from typing import List, Optional
-from datetime import date
 from pydantic import Field
 from utair.clients.external.sirena.base.models.base_client_request import RequestModelABC
 
