@@ -1,3 +1,4 @@
+from datetime import date
 from typing import List, Optional
 from datetime import date
 from pydantic import Field
@@ -23,7 +24,7 @@ class SsrUnitForAdd(RequestModelABC):
             'flight': self.flight,
             'departure': self.departure,
             'arrival': self.arrival,
-            'date': self.departure_date.strftime("%d.%m.%y"),
+            'date': self.departure_date.strftime("%d.%m.%Y") if self.departure_date else None,
         }
 
 
@@ -42,16 +43,22 @@ class SSRForAdd(RequestModelABC):
         description="Наименование услуги — name, необязательный параметр;"
     )
     ssr_type: str = Field(description="Тип услуги")
-    units: List[SsrUnitForAdd] = Field(default_factory=list),
+    units: List[SsrUnitForAdd] = Field(default_factory=list)
 
     _nested: bool = True
 
     def build(self) -> dict:
-        return {
+        request = {
             '@text': self.text,
-            '@type': self.ssr_type,
-            'unit': [u.build() for u in self.units]
+            '@type': self.ssr_type
         }
+        if self.segment_id:
+            request['@seg_id'] = self.segment_id
+        if self.passenger_id:
+            request['@pass_id'] = self.passenger_id
+        if self.units:
+            request['unit'] = [u.build() for u in self.units]
+        return request
 
 
 class AddSSRRequest(RequestModelABC):

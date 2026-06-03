@@ -14,7 +14,7 @@ class PaymentCost(RequestModelABC):
     def build(self) -> dict:
         return {
             '@curr': self.currency,
-            '#text': self.amount
+            '#text': f"{self.amount:.2f}"
         }
 
 
@@ -133,7 +133,6 @@ class ExchangeSegments(RequestModelABC):
 
         return request
 
-
 class Passenger(RequestModelABC):
     """
     Информация о пассажире, используется в GetCalendar, GetPricingRoute
@@ -146,9 +145,10 @@ class Passenger(RequestModelABC):
     citizenship: Optional[str] = Field(description="Гражданство", default=None)
     residence: Optional[str] = Field(description="Страна проживания", default=None)
     count: Optional[int] = Field(description="Количество пассажиров с такими параметрами", default=1)
+    passenger_id: Optional[int] = Field(description="ID пассажира", default=False)
 
     def build(self) -> dict:
-        return {
+        request = {
             "code": self.code,
             "age": self.age,
             "sex": self.sex,
@@ -158,6 +158,9 @@ class Passenger(RequestModelABC):
             "residence": self.residence,
             "count": self.count,
         }
+        if self.passenger_id:
+            request['@id'] = self.passenger_id
+        return request
 
 
 class RequestParams(RequestModelABC):
@@ -186,9 +189,11 @@ class RequestParams(RequestModelABC):
     et_if_possible: Optional[bool] = Field(description="", default=False)
     allow_change_of_airport: Optional[bool] = Field(description="Разрешены ли пересадки со сменой аэропорта",
                                                     default=False)
+    real_seats: Optional[bool] = Field(description="Учитывать реальное количество оставшихся мест в подклассе",
+                                       default=None)
 
     def build(self) -> dict:
-        return {
+        request ={
             "min_results": self.min_results,
             "max_results": self.max_results,
             "timeout": self.timeout,
@@ -205,6 +210,9 @@ class RequestParams(RequestModelABC):
             "et_if_possible": self.et_if_possible
             # et_if_possible, n_prices
         }
+        if self.real_seats:
+            request['real_seats'] = self.real_seats
+        return request
 
 
 class AnswerParams(RequestModelABC):

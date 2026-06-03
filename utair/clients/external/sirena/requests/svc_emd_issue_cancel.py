@@ -8,7 +8,7 @@ class SVCEmdIssueCancelRequest(RequestModelABC):
     """
 
     rloc: str = Field(description="Номер PNR")
-    version: int = Field(description="Версия брони", default="ignore")
+    version: str = Field(description="Версия брони", default="ignore")
 
     lang: str = 'en'
 
