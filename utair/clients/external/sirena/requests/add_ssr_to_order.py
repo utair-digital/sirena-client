@@ -1,5 +1,6 @@
 from datetime import date
 from typing import List, Optional
+from datetime import date
 from pydantic import Field
 from utair.clients.external.sirena.base.models.base_client_request import RequestModelABC
 
@@ -47,8 +48,10 @@ class SSRForAdd(RequestModelABC):
     _nested: bool = True
 
     def build(self) -> dict:
-        request = {'@text': self.text,
-                   '@type': self.ssr_type}
+        request = {
+            '@text': self.text,
+            '@type': self.ssr_type
+        }
         if self.segment_id:
             request['@seg_id'] = self.segment_id
         if self.passenger_id:
