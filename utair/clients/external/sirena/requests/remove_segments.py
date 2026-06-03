@@ -7,8 +7,8 @@ class RemoveSegmentsRequest(RequestModelABC):
 
     rloc: str = Field(description="Номер бронирования")
     last_name: str = Field(description="Фамилия пассажира")
-    segments: List[str] = Field(description="Список идентификаторов сегментов для удаления")
-    ssrs: List[str] = Field(description="Список идентификаторов SSR для удаления")
+    segments: List[str] = Field(default_factory=list, description="Список идентификаторов сегментов для удаления")
+    ssrs: List[str] = Field(default_factory=list, description="Список идентификаторов SSR для удаления")
 
     version: Union[str, int] = "ignore"
 
