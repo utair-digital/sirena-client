@@ -10,10 +10,8 @@ class EmdPrintRequest(RequestModelABC):
 
     emds: List[str] = Field(description="Список EMD для формирования печатной формы")
 
-    lang: str = "en"
-
     _method_name: str = "emd_print"
 
     def build(self) -> dict:
-        request = {"emd": self.emds, "answer_params": {"lang": self.lang}}
+        request = {"emd": self.emds}
         return request
