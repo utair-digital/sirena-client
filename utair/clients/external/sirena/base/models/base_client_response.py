@@ -209,6 +209,13 @@ class ResponseModelABC(BaseModel, ABC):
             "pricing_variant": ("direction", "svc", "price"),
             # "pricing_variant": pricing_variant,
             "view_flown_status": ("passenger", "segment", "svc"),
+            "passlist_meridian": (
+                "segment",
+                "passenger",
+                "contact",
+                "tax",
+                "ssr",
+            ),
         }
         if method_name in force_list_for_method.keys():
             return force_list_for_method.get(method_name)
