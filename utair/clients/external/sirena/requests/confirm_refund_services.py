@@ -30,7 +30,7 @@ class ConfirmRefundServicesRequest(RequestModelABC):
         request = {
             "regnum": {"#text": self.rloc, "@version": self.version},
             "svc": [{"@id": i} for i in self.service_ids],
-            "cost": dict(self.payment_cost),
+            "cost": self.payment_cost.build(),
             "involuntary": self.involuntary,
             "request_params": request_params,
             "answer_params": answer_params,
