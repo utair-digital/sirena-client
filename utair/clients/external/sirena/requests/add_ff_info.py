@@ -11,10 +11,12 @@ class PassengerForAddFFInfo(RequestModelABC):
     loyalty_card: str = Field(..., description="Номер карточки, идентифицирующей клиента")
     segments: List[str] = Field(default_factory=list, description="Идентификаторы сегментов")
 
+    _nested: bool = True
+
     def build(self) -> dict:
         return {
-            '@id': 'passenger_id',              # FIXME
-            'freq_flier_id': 'loyalty_card',    # FIXME
+            '@id': self.passenger_id,
+            'freq_flier_id': self.loyalty_card,
             'segment': [
                 {'@id': s} for s in self.segments
             ]
