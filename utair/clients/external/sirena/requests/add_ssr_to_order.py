@@ -5,8 +5,8 @@ from utair.clients.external.sirena.base.models.base_client_request import Reques
 
 
 class SsrUnitForAdd(RequestModelABC):
-    first_name: str = Field(description="Имя")
-    last_name: str = Field(description="Фамилия")
+    first_name: Optional[str] = Field(description="Имя", default=None)
+    last_name: Optional[str] = Field(description="Фамилия", default=None)
     company: Optional[str] = Field(description="Компания", default=None)
     flight: Optional[str] = Field(description="Рейс", default=None)
     departure: Optional[str] = Field(description="Пункт отправления", default=None)
@@ -16,7 +16,7 @@ class SsrUnitForAdd(RequestModelABC):
     _nested: bool = True
 
     def build(self) -> dict:
-        return {
+        fields = {
             'name': self.first_name,
             'surname': self.last_name,
             'company': self.company,
@@ -25,6 +25,7 @@ class SsrUnitForAdd(RequestModelABC):
             'arrival': self.arrival,
             'date': self.departure_date.strftime("%d.%m.%Y") if self.departure_date else None,
         }
+        return {k: v for k, v in fields.items() if v}
 
 
 class SSRForAdd(RequestModelABC):
