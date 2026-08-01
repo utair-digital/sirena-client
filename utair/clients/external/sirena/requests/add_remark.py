@@ -26,8 +26,8 @@ class AddRemarkRequest(RequestModelABC):
         request = {
             "regnum": self.rloc,
             "surname": self.last_name,
-            "type": remark_type,
-            "remark": remark_text,
+            "type": self.remark_type,
+            "remark": self.remark_text,
             "request_params": request_params,
             "answer_params": answer_params,
         }
