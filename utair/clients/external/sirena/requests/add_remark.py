@@ -9,7 +9,6 @@ class AddRemarkRequest(RequestModelABC):
 
     rloc: str = Field(description="Номер PNR")
     last_name: str = Field(description="Фамилия пассажира")
-    remark_type: str = Field(description="Тип ремарки")
     remark_text: str = Field(description="Текст ремарки")
 
     lang: str = 'en'
@@ -26,7 +25,6 @@ class AddRemarkRequest(RequestModelABC):
         request = {
             "regnum": self.rloc,
             "surname": self.last_name,
-            "type": self.remark_type,
             "remark": self.remark_text,
             "request_params": request_params,
             "answer_params": answer_params,
